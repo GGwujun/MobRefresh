@@ -1,0 +1,43 @@
+{
+  "name": "page-refresh",
+  "version": "0.0.1",
+  "description": "帅气优雅的移动端下拉刷新，零依赖，高性能，丰富主题，强扩展性",
+  "main": "dist/pagerefresh.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GGwujun/pagerefresh.git"
+  },
+  "keywords": [
+    "刷新",
+    "h5",
+    "上拉加载",
+    "下拉刷新",
+    "移动端刷新",
+    "微信网页刷新",
+    "加载更多",
+    "scroll"
+  ],
+  "author": "876337268@qq.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GGwujun/pagerefresh/issues"
+  },
+  "homepage": "https://github.com/GGwujun/pagerefresh#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "lodash": "^4.17.4",
+    "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  }
+}
