@@ -75,13 +75,14 @@ var defaultSetting = {
     }
 };
 
-var defaults = core.extend({
-    init: function (options) {
-        // 拓展自定义的配置
+
+class defaults extends core {
+    constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
-        this._super(options);
-    },
-    _initHook: function (isLockDown, isLockUp) {
+        super(options);
+    }
+
+    _initHook(isLockDown, isLockUp) {
         var container = this.container,
             contentWrap = this.contentWrap;
 
@@ -98,12 +99,12 @@ var defaults = core.extend({
         this._initDownWrap();
         this._initUpWrap();
         //this._initToTop();
-    },
+    };
 
     /**
      * 刷新的实现，需要根据新配置进行一些更改
      */
-    _refreshHook: function () {
+    _refreshHook() {
         // 如果开关csstranslate，需要兼容
         if (this.options.down.isWrapCssTranslate) {
             this._transformDownWrap(-this.downWrapHeight);
@@ -116,8 +117,8 @@ var defaults = core.extend({
             this.toTopBtn && this.toTopBtn.classList.add(CLASS_HIDDEN);
             this.isShowToTopBtn = false;
         }
-    },
-    _initDownWrap: function () {
+    };
+    _initDownWrap() {
         var container = this.container,
             contentWrap = this.contentWrap,
             options = this.options;
@@ -137,8 +138,8 @@ var defaults = core.extend({
 
         this.downWrapHeight = downWrap.offsetHeight || DEFAULT_DOWN_HEIGHT;
         this._transformDownWrap(-this.downWrapHeight);
-    },
-    _transformDownWrap: function (offset, duration, isForce) {
+    };
+    _transformDownWrap(offset, duration, isForce) {
         if (!isForce && !this.options.down.isWrapCssTranslate) {
             return;
         }
@@ -149,9 +150,9 @@ var defaults = core.extend({
         this.downWrap.style.transitionDuration = duration + 'ms';
         this.downWrap.style.webkitTransform = 'translateY(' + offset + 'px)  translateZ(0px)';
         this.downWrap.style.transform = 'translateY(' + offset + 'px)  translateZ(0px)';
-    },
+    };
 
-    _initUpWrap: function () {
+    _initUpWrap() {
         var contentWrap = this.contentWrap,
             options = this.options;
 
@@ -166,13 +167,13 @@ var defaults = core.extend({
         this.upWrap = upWrap;
         this.upWrapProgress = this.upWrap.querySelector('.upwrap-progress');
         this.upWrapTips = this.upWrap.querySelector('.upwrap-tips');
-    },
+    };
 
     /**
      * 自定义实现一个toTop，由于这个是属于额外的事件所以没有添加的核心中，而是由各自的主题决定是否实现或者实现成什么样子
      * 不过框架中仍然提供了一个默认的minirefresh-totop样式，可以方便使用
      */
-    _initToTop: function () {
+    _initToTop() {
         var self = this,
             options = this.options,
             toTop = options.up.toTop.isEnable,
@@ -192,8 +193,8 @@ var defaults = core.extend({
             // 默认添加到body中防止冲突
             document.body.appendChild(toTopBtn);
         }
-    },
-    _pullHook: function (downHight, downOffset) {
+    };
+    _pullHook(downHight, downOffset) {
         var options = this.options,
             FULL_DEGREE = 360;
 
@@ -215,8 +216,8 @@ var defaults = core.extend({
         this.downWrapProgress.style.webkitTransform = 'rotate(' + progress + 'deg)';
         this.downWrapProgress.style.transform = 'rotate(' + progress + 'deg)';
         this._transformDownWrap(-this.downWrapHeight + downHight);
-    },
-    _scrollHook: function (scrollTop) {
+    };
+    _scrollHook(scrollTop) {
         // 用来判断toTop
         var options = this.options,
             toTop = options.up.toTop.isEnable,
@@ -238,21 +239,21 @@ var defaults = core.extend({
                 }
             }
         }
-    },
-    _downLoaingHook: function () {
+    };
+    _downLoaingHook() {
         // 默认和contentWrap的同步
         this._transformDownWrap(-this.downWrapHeight + this.options.down.offset, this.options.down.bounceTime);
         this.downWrapTips.innerText = this.options.down.contentrefresh;
         this.downWrapProgress.classList.add(CLASS_ROTATE);
-    },
-    _downLoaingSuccessHook: function (isSuccess, successTips) {
+    };
+    _downLoaingSuccessHook(isSuccess, successTips) {
         this.options.down.contentsuccess = successTips || this.options.down.contentsuccess;
         this.downWrapTips.innerText = isSuccess ? this.options.down.contentsuccess : this.options.down.contenterror;
         this.downWrapProgress.classList.remove(CLASS_ROTATE);
         this.downWrapProgress.classList.add(CLASS_FADE_OUT);
         this.downWrapProgress.classList.add(isSuccess ? CLASS_DOWN_SUCCESS : CLASS_DOWN_ERROR);
-    },
-    _downLoaingEndHook: function (isSuccess) {
+    };
+    _downLoaingEndHook(isSuccess) {
         this.downWrapTips.innerText = this.options.down.contentdown;
         this.downWrapProgress.classList.remove(CLASS_ROTATE);
         this.downWrapProgress.classList.remove(CLASS_FADE_OUT);
@@ -261,11 +262,11 @@ var defaults = core.extend({
         // 需要重置回来
         this.isCanPullDown = false;
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
-    },
-    _cancelLoaingHook: function () {
+    };
+    _cancelLoaingHook() {
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
-    },
-    _upLoaingHook: function (isShowUpLoading) {
+    };
+    _upLoaingHook(isShowUpLoading) {
         if (isShowUpLoading) {
             this.upWrapTips.innerText = this.options.up.contentrefresh;
             this.upWrapProgress.classList.add(CLASS_ROTATE);
@@ -275,8 +276,8 @@ var defaults = core.extend({
             this.upWrap.style.visibility = 'hidden';
         }
 
-    },
-    _upLoaingEndHook: function (isFinishUp) {
+    };
+    _upLoaingEndHook(isFinishUp) {
         if (!isFinishUp) {
             // 接下来还可以加载更多
             this.upWrap.style.visibility = 'hidden';
@@ -288,14 +289,14 @@ var defaults = core.extend({
         }
         this.upWrapProgress.classList.remove(CLASS_ROTATE);
         this.upWrapProgress.classList.add(CLASS_HIDDEN);
-    },
-    _lockUpLoadingHook: function (isLock) {
+    };
+    _lockUpLoadingHook(isLock) {
         this.upWrap.style.visibility = isLock ? 'hidden' : 'visible';
-    },
-    _lockDownLoadingHook: function (isLock) {
+    };
+    _lockDownLoadingHook(isLock) {
         this.downWrap.style.visibility = isLock ? 'hidden' : 'visible';
-    }
-});
+    };
+};
 
 // 挂载主题，这样多个主题可以并存，default是关键字，所以使用了defaults
 utils.namespace('theme.defaults', defaults);

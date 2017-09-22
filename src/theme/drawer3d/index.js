@@ -38,23 +38,23 @@ var defaultSetting = {
     }
 };
 
-var drawer3d = utils.theme.defaults.extend({
+class drawer3d extends utils.theme.defaults {
 
     /**
      * 拓展自定义的配置
      * @param {Object} options 配置参数
      */
-    init: function (options) {
+    constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
-        this._super(options);
-    },
+        super(options);
+    };
 
     /**
      * 重写下拉刷新初始化，变为小程序自己的动画
      */
-    _initDownWrap: function () {
+    _initDownWrap() {
         // 先复用default代码，然后重写
-        this._super();
+        super._initDownWrap();
 
         var container = this.container,
             options = this.options,
@@ -83,11 +83,11 @@ var drawer3d = utils.theme.defaults.extend({
         // 由于downWrap被改变了，重新移动
         this._transformDownWrap(-this.downWrapHeight);
         this._resetDrawer();
-    },
-    _transformDownWrap: function (offset, duration) {
-        this._super(offset, duration);
-    },
-    _transformDrawer: function (degree, duration) {
+    };
+    _transformDownWrap(offset, duration) {
+        super._transformDownWrap(offset, duration);
+    };
+    _transformDrawer(degree, duration) {
         degree = degree || 0;
         duration = duration || 0;
         // 一些3D相关属性写到了CSS中
@@ -101,64 +101,64 @@ var drawer3d = utils.theme.defaults.extend({
         this.drawerMask.style.opacity = opacity;
         this.drawerMask.style.transitionDuration = duration + 'ms';
         this.drawerMask.style.webkitTransitionDuration = duration + 'ms';
-    },
+    };
 
     /**
      * 重置抽屉，主要是旋转角度
      */
-    _resetDrawer: function () {
+    _resetDrawer() {
         this._transformDrawer(DRAWER_FULL_DEGREE, this.options.down.bounceTime);
-    },
+    };
 
     /**
      * 重写下拉过程动画
      * @param {Number} downHight 当前下拉的高度
      * @param {Number} downOffset 下拉的阈值
      */
-    _pullHook: function (downHight, downOffset) {
+    _pullHook(downHight, downOffset) {
         // 复用default的同名函数代码           
-        this._super(downHight, downOffset);
+        super._pullHook(downHight, downOffset);
 
         var rate = downHight / downOffset,
             degree = DRAWER_FULL_DEGREE * (1 - Math.min(rate, 1));
 
         this._transformDrawer(degree);
-    },
+    };
 
     /**
      * 重写下拉动画
      */
-    _downLoaingHook: function () {
+    _downLoaingHook() {
         // loading中已经translate了
-        this._super();
+        super._downLoaingHook();
 
         this._transformDrawer(0, this.options.down.bounceTime);
-    },
+    };
 
     /**
      * 重写success 但是什么都不做
      */
-    _downLoaingSuccessHook: function () { },
+    _downLoaingSuccessHook() { };
 
     /**
      * 重写下拉end
      * @param {Boolean} isSuccess 是否成功
      */
-    _downLoaingEndHook: function (isSuccess) {
-        this._super(isSuccess);
+    _downLoaingEndHook(isSuccess) {
+        super._downLoaingEndHook(isSuccess);
         this._resetDrawer();
-    },
+    };
 
     /**
      * 取消loading的回调
      */
-    _cancelLoaingHook: function () {
-        this._super();
+    _cancelLoaingHook() {
+        super._cancelLoaingHook();
         this._resetDrawer();
-    }
-});
+    };
+};
 
 // 挂载主题，这样多个主题可以并存
-utils.namespace('theme.drawer3d', drawer3d);
+// utils.namespace('theme.drawer3d', drawer3d);
 
 export default drawer3d

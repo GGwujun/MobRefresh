@@ -12,11 +12,8 @@
 
 优雅的H5下拉刷新。零依赖，高性能，多主题，易拓展。
 
-[README in English](READM.en.md)
-
-[Docs in English](https://minirefresh.github.io/minirefresh-doc-en/)
-
 ### [http://www.minirefresh.com](http://www.minirefresh.com)
+
 
 ## Notice
 
@@ -51,31 +48,31 @@ __喜欢，你就给一个star!__
 ### NPM
 
 ```js
-npm install minirefresh
+npm install page-refresh  --save-dev(一般推荐本地安装)
 ```
 
-[https://www.npmjs.com/package/minirefresh](https://www.npmjs.com/package/minirefresh)
+[https://www.npmjs.com/package/page-refresh](https://www.npmjs.com/package/page-refresh)
 
 ### GIT
 
 ```js
-git clone git://github.com/minirefresh/minirefresh.git
+git clone git://https://github.com/GGwujun/page-refresh.git
 ```
 
-[https://github.com/minirefresh/minirefresh](https://github.com/minirefresh/minirefresh)
+[https://github.com/GGwujun/page-refresh.git](https://github.com/GGwujun/page-refresh.git)
 
 ## 引入
 
 ```html
-<link rel="stylesheet" href="xxx/minirefresh.css" />
-<script type="text/javascript" src="xxx/minirefresh.js"></script>
+<link rel="stylesheet" href="xxx/pagerefresh.min.css" />
+<script type="text/javascript" src="xxx/pagerefresh.min.js"></script>
 ```
 
 ### `require`引入
 
 ```js
 // 同时支持NPM与文件形式引入
-var MiniRefreshTools = require('xxx/minirefresh.js');
+var MiniRefreshTools = require('xxx/pagerefresh.js');
 require('xxx/minirefresh.css');
 ```
 
@@ -83,8 +80,8 @@ require('xxx/minirefresh.css');
 
 ```js
 // debug下是.js dist下是.min.js
-import MiniRefreshTools from 'minirefresh';
-import 'minirefresh/dist/debug/minirefresh.css'
+import pagerefresh from 'page-refresh';
+import 'page-refresh/dist/page-refresh.min.css'
 ```
 
 ## 页面布局
@@ -100,9 +97,10 @@ import 'minirefresh/dist/debug/minirefresh.css'
 ## 初始化
 
 ```js
-// 引入任何一个主题后，都会有一个 MiniRefresh 全局变量
+// 官方内置主题任意配置
 var miniRefresh = new MiniRefresh({
-    container: '#minirefresh',
+    container: '#pagerefresh',
+    theme:'taobao',
     down: {
         callback: function() {
             // 下拉事件
@@ -121,13 +119,13 @@ var miniRefresh = new MiniRefresh({
 
 ```js
 // 结束下拉刷新
-miniRefresh.endDownLoading();
+pagerefresh.endDownLoading();
 ```
 
 ```js
 // 结束上拉加载
 // 参数为true代表没有更多数据，否则接下来可以继续加载
-miniRefresh.endUpLoading(true);
+pagerefresh.endUpLoading(true);
 ```
 
 ### 更多
@@ -196,22 +194,19 @@ __4. 【drawer-slider】滑动抽屉效果主题__
 
 ## 贡献
 
-__`minirefresh`需要你!__
+__`pagerefresh`需要你!__
 
 来为项目添砖加瓦，新的`Idea`，新的主题，重大Bug发现，新的设计资源（如图标，官网设计等）
 
 都可以通过`Issue`或`PR`的方式提交！
 
-贡献被采纳后会加入贡献者名单，如果有杰出贡献（如持续贡献），可以加入`Manager`小组，共同开发维护`MiniRefresh`
+贡献被采纳后会加入贡献者名单，如果有杰出贡献（如持续贡献），可以加入`Manager`小组，共同开发维护`pagerefresh`
 
-有共同参与项目意愿的，可以申请成为`Member`，成为`Minirefresh`真正的主人！
+有共同参与项目意愿的，可以申请成为`Member`，成为`pagerefresh`真正的主人！
 
-更多参考：[https://minirefresh.github.io/minirefresh-doc/site/contribute/howtocontributor.html](https://minirefresh.github.io/minirefresh-doc/site/contribute/howtocontributor.html)
 
 ## 讨论
 
-- [gitter](https://gitter.im/minirefreshjs/minirefresh)
+- QQ群（`225192209`）
 
-- QQ群（`601988892`）
-
-_注意，申请加入群时请添加验证信息，例如：minirefresh使用遇到问题等等_
+_注意，申请加入群时请添加验证信息，例如：pagerefresh使用遇到问题等等_

@@ -17,6 +17,5 @@ const pagerefresh = function (position) {
     return new themeMap[position.theme](position)
 }
 
-
 export default pagerefresh
 export { pagerefresh }

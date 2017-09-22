@@ -37,21 +37,20 @@ var defaultSetting = {
     }
 };
 
-var applet = utils.theme.defaults.extend({
-
+class applet extends utils.theme.defaults {
     /**
      * 拓展自定义的配置
      * @param {Object} options 配置参数
      */
-    init: function (options) {
+    constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
-        this._super(options);
-    },
+        super(options);
+    };
 
     /**
      * 重写下拉刷新初始化，变为小程序自己的动画
      */
-    _initDownWrap: function () {
+    _initDownWrap() {
         var container = this.container,
             contentWrap = this.contentWrap;
 
@@ -69,17 +68,17 @@ var applet = utils.theme.defaults.extend({
         // 留一个默认值，以免样式被覆盖，无法获取
         this.downWrapHeight = this.downWrap.offsetHeight || DEFAULT_DOWN_HEIGHT;
         this._transformDownWrap(-1 * this.downWrapHeight);
-    },
-    _transformDownWrap: function (offset, duration) {
-        this._super(offset, duration);
-    },
+    };
+    _transformDownWrap(offset, duration) {
+        super._transformDownWrap(offset, duration);
+    };
 
     /**
      * 重写下拉过程动画
      * @param {Number} downHight 当前下拉的高度
      * @param {Number} downOffset 下拉的阈值
      */
-    _pullHook: function (downHight, downOffset) {
+    _pullHook(downHight, downOffset) {
 
         if (downHight < downOffset) {
             var rate = downHight / downOffset,
@@ -89,39 +88,39 @@ var applet = utils.theme.defaults.extend({
         } else {
             this._transformDownWrap(0);
         }
-    },
+    };
 
     /**
      * 重写下拉动画
      */
-    _downLoaingHook: function () {
+    _downLoaingHook() {
         this.downWrap.classList.add(CLASS_DOWN_LOADING);
-    },
+    };
 
     /**
      * 重写success 但是什么都不做
      */
-    _downLoaingSuccessHook: function () { },
+    _downLoaingSuccessHook() { };
 
     /**
      * 重写下拉end
      * @param {Boolean} isSuccess 是否成功
      */
-    _downLoaingEndHook: function (isSuccess) {
+    _downLoaingEndHook(isSuccess) {
         this.downWrap.classList.remove(CLASS_DOWN_LOADING);
         this._transformDownWrap(-1 * this.downWrapHeight, this.options.down.bounceTime);
-    },
+    };
 
     /**
      * 取消loading的回调
      */
-    _cancelLoaingHook: function () {
+    _cancelLoaingHook() {
         this._transformDownWrap(-1 * this.downWrapHeight, this.options.down.bounceTime);
-    }
-});
+    };
+};
 
 // 挂载主题，这样多个主题可以并存
-utils.namespace('theme.applet', applet);
+// utils.namespace('theme.applet', applet);
 
 // 覆盖全局对象，使的全局对象只会指向一个最新的主题
 // globalContext.MiniRefresh = MiniRefreshTheme;

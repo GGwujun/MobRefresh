@@ -40,23 +40,23 @@ var defaultSetting = {
     }
 };
 
-var drawerslider = utils.theme.defaults.extend({
+class drawerslider extends utils.theme.defaults {
 
     /**
      * 拓展自定义的配置
      * @param {Object} options 配置参数
      */
-    init: function (options) {
+    constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
-        this._super(options);
-    },
+        super(options);
+    };
 
     /**
      * 重写下拉刷新初始化，变为小程序自己的动画
      */
-    _initDownWrap: function () {
+    _initDownWrap() {
         // 先复用default代码，然后重写
-        this._super();
+        super._initDownWrap();
 
         var container = this.container,
             options = this.options,
@@ -85,12 +85,12 @@ var drawerslider = utils.theme.defaults.extend({
         this.downWrapHeight = DOWN_SHADOW_HEIGHT + downWrap.offsetHeight || DEFAULT_DOWN_HEIGHT;
         // 由于downWrap被改变了，重新移动
         this._transformDownWrap(-this.downWrapHeight);
-    },
-    _transformDownWrap: function (offset, duration) {
-        this._super(offset, duration);
+    };
+    _transformDownWrap(offset, duration) {
+        super._transformDownWrap(offset, duration);
         this._transformDrawer(offset, duration);
-    },
-    _transformDrawer: function (offset, duration) {
+    };
+    _transformDrawer(offset, duration) {
         if (!this.drawerMask) {
             return;
         }
@@ -106,49 +106,49 @@ var drawerslider = utils.theme.defaults.extend({
         this.drawerMask.style.opacity = opacity;
         this.drawerMask.style.webkitTransitionDuration = duration + 'ms';
         this.drawerMask.style.transitionDuration = duration + 'ms';
-    },
+    };
 
     /**
      * 重写下拉过程动画
      * @param {Number} downHight 当前下拉的高度
      * @param {Number} downOffset 下拉的阈值
      */
-    _pullHook: function (downHight, downOffset) {
+    _pullHook(downHight, downOffset) {
         // 复用default的同名函数代码           
-        this._super(downHight, downOffset);
-    },
+        super._pullHook(downHight, downOffset);
+    };
 
     /**
      * 重写下拉动画
      */
-    _downLoaingHook: function () {
+    _downLoaingHook() {
         // loading中已经translate了
-        this._super();
-    },
+        super._downLoaingHook();
+    };
 
     /**
      * 重写success 但是什么都不做
      */
-    _downLoaingSuccessHook: function () { },
+    _downLoaingSuccessHook() { };
 
     /**
      * 重写下拉end
      * @param {Boolean} isSuccess 是否成功
      */
-    _downLoaingEndHook: function (isSuccess) {
-        this._super(isSuccess);
-    },
+    _downLoaingEndHook(isSuccess) {
+        super._downLoaingEndHook(isSuccess);
+    };
 
     /**
      * 取消loading的回调
      */
-    _cancelLoaingHook: function () {
-        this._super();
+    _cancelLoaingHook() {
+        super._cancelLoaingHook();
     }
-});
+};
 
 // 挂载主题，这样多个主题可以并存
-utils.namespace('theme.drawerslider', drawerslider);
+// utils.namespace('theme.drawerslider', drawerslider);
 
 // 覆盖全局对象，使的全局对象只会指向一个最新的主题
 // globalContext.MiniRefresh = MiniRefreshTheme;

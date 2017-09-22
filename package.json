@@ -5,13 +5,14 @@
   "main": "dist/pagerefresh.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "build": "node build/build.js",
+    "watch": "node build/watch.js",
+    "dev": "npm run watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GGwujun/pagerefresh.git"
+    "url": "git+https://github.com/GGwujun/page-refresh.git"
   },
   "keywords": [
     "刷新",
@@ -26,15 +27,18 @@
   "author": "876337268@qq.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GGwujun/pagerefresh/issues"
+    "url": "https://github.com/GGwujun/page-refresh/issues"
   },
-  "homepage": "https://github.com/GGwujun/pagerefresh#readme",
+  "homepage": "https://github.com/GGwujun/page-refresh#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "lodash": "^4.17.4",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.6.0",

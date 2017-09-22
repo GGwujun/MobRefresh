@@ -83,13 +83,12 @@ var defaultSetting = {
     isUseBodyScroll: false
 };
 
-var core = utils.Clazz.extend({
-
+class core {
     /**
-     * 初始化
-     * @param {Object} options 配置信息
-     */
-    init: function (options) {
+    * 构造器 初始化
+    * @param {Object} options 配置信息
+    */
+    constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
 
         this.container = utils.selector(options.container);
@@ -112,13 +111,13 @@ var core = utils.Clazz.extend({
         // 如果初始化时锁定了，需要触发锁定，避免没有锁定时解锁（会触发逻辑bug）
         options.up.isLock && this._lockUpLoading(options.up.isLock);
         options.down.isLock && this._lockDownLoading(options.down.isLock);
-    },
-    _resetOptions: function () {
+    };
+    _resetOptions() {
         var options = this.options;
         this._lockUpLoading(options.up.isLock);
         this._lockDownLoading(options.down.isLock);
-    },
-    _initEvent: function () {
+    };
+    _initEvent() {
         var self = this,
             options = self.options;
 
@@ -151,7 +150,7 @@ var core = utils.Clazz.extend({
         this.scroller.hook('beforeDownLoading', function (downHight, downOffset) {
             return !self._beforeDownLoadingHook || self._beforeDownLoadingHook(downHight, downOffset);
         });
-    },
+    };
 
     /**
      * 内部执行，结束下拉刷新
@@ -159,7 +158,7 @@ var core = utils.Clazz.extend({
      * @param {String} successTips 需要更新的成功提示
      * 在开启了成功动画时，往往成功的提示是需要由外传入动态更新的，譬如  update 10 news
      */
-    _endDownLoading: function (isSuccess, successTips) {
+    _endDownLoading(isSuccess, successTips) {
         var self = this;
 
         if (!this.options.down) {
@@ -188,55 +187,55 @@ var core = utils.Clazz.extend({
 
             }, successAnimTime);
         }
-    },
+    };
 
     /**
      * 内部执行，结束上拉加载
      * @param {Boolean} isFinishUp 是否结束了上拉加载
      */
-    _endUpLoading: function (isFinishUp) {
+    _endUpLoading(isFinishUp) {
         if (this.scroller.upLoading) {
             this.scroller.endUpLoading(isFinishUp);
             this._upLoaingEndHook && this._upLoaingEndHook(isFinishUp);
         }
-    },
+    };
 
     /**
      * 重新刷新上拉加载，刷新后会变为可以上拉加载
      */
-    _resetUpLoading: function () {
+    _resetUpLoading() {
         this.scroller.resetUpLoading();
-    },
+    };
 
     /**
      * 锁定上拉加载
      * 将开启和禁止合并成一个锁定API
      * @param {Boolean} isLock 是否锁定
      */
-    _lockUpLoading: function (isLock) {
+    _lockUpLoading(isLock) {
         this.scroller.lockUp(isLock);
         this._lockUpLoadingHook && this._lockUpLoadingHook(isLock);
-    },
+    };
 
     /**
      * 锁定下拉刷新
      * @param {Boolean} isLock 是否锁定
      */
-    _lockDownLoading: function (isLock) {
+    _lockDownLoading(isLock) {
         this.scroller.lockDown(isLock);
         this._lockDownLoadingHook && this._lockDownLoadingHook(isLock);
-    },
+    };
 
     /**
      * 刷新minirefresh的配置，关键性的配置请不要更新，如容器，回调等
      * @param {Object} options 新的配置，会覆盖原有的
      */
-    refreshOptions: function (options) {
+    refreshOptions(options) {
         this.options = utils.extend(true, {}, this.options, options);
         this.scroller.refreshOptions(this.options);
         this._resetOptions(options);
         this._refreshHook && this._refreshHook();
-    },
+    };
 
     /**
      * 结束下拉刷新
@@ -244,52 +243,52 @@ var core = utils.Clazz.extend({
      * @param {String} successTips 需要更新的成功提示
      * 在开启了成功动画时，往往成功的提示是需要由外传入动态更新的，譬如  update 10 news
      */
-    endDownLoading: function (isSuccess, successTips) {
+    endDownLoading(isSuccess, successTips) {
         typeof isSuccess !== 'boolean' && (isSuccess = true);
         this._endDownLoading(isSuccess, successTips);
         // 同时恢复上拉加载的状态，注意，此时没有传isShowUpLoading，所以这个值不会生效
         this._resetUpLoading();
-    },
+    };
 
     /**
      * 重置上拉加载状态,如果是没有更多数据后重置，会变为可以继续上拉加载
      */
-    resetUpLoading: function () {
+    resetUpLoading() {
         this._resetUpLoading();
-    },
+    };
 
     /**
      * 结束上拉加载
      * @param {Boolean} isFinishUp 是否结束上拉加载，如果结束，就相当于变为了没有更多数据，无法再出发上拉加载了
      * 结束后必须reset才能重新开启
      */
-    endUpLoading: function (isFinishUp) {
+    endUpLoading(isFinishUp) {
         this._endUpLoading(isFinishUp);
-    },
+    };
 
     /**
      * 触发上拉加载
      */
-    triggerUpLoading: function () {
+    triggerUpLoading() {
         this.scroller.triggerUpLoading();
-    },
+    };
 
     /**
      * 触发下拉刷新
      */
-    triggerDownLoading: function () {
+    triggerDownLoading() {
         this.scroller.scrollTo(0);
         this.scroller.triggerDownLoading();
-    },
+    };
 
     /**
      * 滚动到指定的y位置
      * @param {Number} y 需要滑动到的top值
      * @param {Number} duration 单位毫秒
      */
-    scrollTo: function (y, duration) {
+    scrollTo(y, duration) {
         this.scroller.scrollTo(y, duration);
     }
-});
+}
 
 export default core
