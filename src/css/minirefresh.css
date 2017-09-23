@@ -45,6 +45,7 @@
     z-index: 1;
 }
 
+
 /**
  * 如果开启了body监听scroll，需要将position都设置为releative
  * 否则监听不到
@@ -72,8 +73,6 @@
 .minirefresh-hidden {
     display: none !important;
 }
-
-
 
 
 /*

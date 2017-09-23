@@ -3,20 +3,20 @@
  * 继承自default
  */
 
-import utils from '../../utils';
+import utils from '../../utils/index';
 import './index.css';
-import core from '../../core';
+// import core from "../../core/index";
 
 
 /**
  * 一些默认提供的CSS类，一般来说不会变动（由框架提供的）
  * theme字段会根据不同的主题有不同值
  */
-var CLASS_THEME = 'minirefresh-theme-taobao';
-var CLASS_DOWN_WRAP = 'minirefresh-downwrap';
-var CLASS_HARDWARE_SPEEDUP = 'minirefresh-hardware-speedup';
-var CLASS_ROTATE = 'minirefresh-rotate';
-var CLASS_HIDDEN = 'minirefresh-hidden';
+const CLASS_THEME = 'minirefresh-theme-taobao';
+const CLASS_DOWN_WRAP = 'minirefresh-downwrap';
+const CLASS_HARDWARE_SPEEDUP = 'minirefresh-hardware-speedup';
+const CLASS_ROTATE = 'minirefresh-rotate';
+const CLASS_HIDDEN = 'minirefresh-hidden';
 
 /**
  * 定义几个状态
@@ -25,32 +25,32 @@ var CLASS_HIDDEN = 'minirefresh-hidden';
  * 释放刷新状态
  * 准备进入秘密花园状态
  */
-var STATE_PULL_DEFAULT = 0;
-var STATE_PULL_DOWN = 1;
-var STATE_PULL_READY_REFRESH = 2;
-var STATE_PULL_READY_SECRETGARDEN = 3;
+const STATE_PULL_DEFAULT = 0;
+const STATE_PULL_DOWN = 1;
+const STATE_PULL_READY_REFRESH = 2;
+const STATE_PULL_READY_SECRETGARDEN = 3;
 
 /**
  * 一些常量
  */
-var DEFAULT_DOWN_HEIGHT = 800;
+const DEFAULT_DOWN_HEIGHT = 800;
 
 /**
  * 一些样式
  */
-var CLASS_SECRET_GARDEN_BG_IN = 'secret-garden-bg-in';
-var CLASS_SECRET_GARDEN_BG_OUT = 'secret-garden-bg-out';
-var CLASS_SECRET_GARDEN_MOON_IN = 'secret-garden-moon-in';
-var CLASS_SECRET_GARDEN_MOON_OUT = 'secret-garden-moon-out';
+const CLASS_SECRET_GARDEN_BG_IN = 'secret-garden-bg-in';
+const CLASS_SECRET_GARDEN_BG_OUT = 'secret-garden-bg-out';
+const CLASS_SECRET_GARDEN_MOON_IN = 'secret-garden-moon-in';
+const CLASS_SECRET_GARDEN_MOON_OUT = 'secret-garden-moon-out';
 
-var defaultSetting = {
+const defaultSetting = {
     down: {
         // 下拉100出现释放更新
         offset: 100,
         dampRate: 0.4,
         successAnim: {
             // successAnim
-            isEnable: false
+            isEnable: false,
         },
         // 本主题独有的效果
         secretGarden: {
@@ -60,11 +60,11 @@ var defaultSetting = {
             offset: 200,
             // 提示文字
             tips: '欢迎光临秘密花园',
-            inSecretGarden: utils.noop
+            inSecretGarden: utils.noop,
         },
         // 继承了default的downWrap部分代码，需要这个变量
-        isWrapCssTranslate: true
-    }
+        isWrapCssTranslate: true,
+    },
 };
 
 
@@ -76,27 +76,27 @@ class taobao extends utils.theme.defaults {
     constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
         super(options);
-    };
+    }
 
     /**
      * 重写下拉刷新初始化，变为小程序自己的动画
      */
     _initDownWrap() {
-        var container = this.container,
+        let container = this.container,
             contentWrap = this.contentWrap,
             options = this.options;
 
         // 下拉的区域
-        var downWrap = document.createElement('div');
+        const downWrap = document.createElement('div');
 
-        downWrap.className = CLASS_DOWN_WRAP + ' ' + CLASS_HARDWARE_SPEEDUP;
-        downWrap.innerHTML = '<div class="downwrap-bg"></div>' +
+        downWrap.className = `${CLASS_DOWN_WRAP} ${CLASS_HARDWARE_SPEEDUP}`;
+        downWrap.innerHTML = `${'<div class="downwrap-bg"></div>' +
             '<div class="downwrap-moon"></div>' +
             '<div class="downwrap-content">' +
             '<p class="downwrap-progress"></p>' +
-            '<p class="downwrap-tips">' +
-            options.down.contentdown +
-            '</p>' +
+            '<p class="downwrap-tips">'}${
+            options.down.contentdown
+        }</p>` +
             '</div>';
         container.insertBefore(downWrap, contentWrap);
 
@@ -114,20 +114,20 @@ class taobao extends utils.theme.defaults {
         this.downWrapHeight = this.downWrap.offsetHeight || DEFAULT_DOWN_HEIGHT;
 
         this._transformDownWrap(-1 * this.downWrapHeight);
-    };
+    }
 
-    _transformDownWrap(offset, duration, isForce) {
+    _transformDownWrap(offset, duration) {
         super._transformDownWrap(offset, duration);
-    };
+    }
 
     /**
      * 旋转进度条
      * @param {Number} progress 对应需要选择的进度
      */
     _rotateDownProgress(progress) {
-        this.downWrapProgress.style.webkitTransform = 'rotate(' + progress + 'deg)';
-        this.downWrapProgress.style.transform = 'rotate(' + progress + 'deg)';
-    };
+        this.downWrapProgress.style.webkitTransform = `rotate(${progress}deg)`;
+        this.downWrapProgress.style.transform = `rotate(${progress}deg)`;
+    }
 
     /**
      * 重写下拉过程动画
@@ -135,13 +135,13 @@ class taobao extends utils.theme.defaults {
      * @param {Number} downOffset 下拉阈值
      */
     _pullHook(downHight, downOffset) {
-        var options = this.options,
+        let options = this.options,
             down = options.down,
             secretGarden = down.secretGarden.isEnable,
             secretGardenOffset = down.secretGarden.offset,
             FULL_DEGREE = 360;
 
-        var rate = downHight / downOffset,
+        let rate = downHight / downOffset,
             progress = FULL_DEGREE * rate;
 
         this._transformDownWrap(-this.downWrapHeight + downHight);
@@ -165,15 +165,13 @@ class taobao extends utils.theme.defaults {
                 this.downWrapTips.innerText = down.contentover;
                 this.pullState = STATE_PULL_READY_REFRESH;
             }
-        } else {
-            if (this.pullState !== STATE_PULL_READY_SECRETGARDEN) {
-                this.downWrapTips.classList.remove(CLASS_HIDDEN);
-                this.downWrapProgress.classList.add(CLASS_HIDDEN);
-                this.downWrapTips.innerText = down.secretGarden.tips;
-                this.pullState = STATE_PULL_READY_SECRETGARDEN;
-            }
+        } else if (this.pullState !== STATE_PULL_READY_SECRETGARDEN) {
+            this.downWrapTips.classList.remove(CLASS_HIDDEN);
+            this.downWrapProgress.classList.add(CLASS_HIDDEN);
+            this.downWrapTips.innerText = down.secretGarden.tips;
+            this.pullState = STATE_PULL_READY_SECRETGARDEN;
         }
-    };
+    }
 
     /**
      * 因为有自定义秘密花园的动画，所以需要实现这个hook，在特定条件下去除默认行为
@@ -181,16 +179,15 @@ class taobao extends utils.theme.defaults {
      * @param {Number} downOffset 下拉阈值
      * @return {Boolean} 返回false就不再进入下拉loading，默认为true
      */
-    _beforeDownLoadingHook(downHight, downOffset) {
+    _beforeDownLoadingHook() {
         // 只要没有进入秘密花园，就仍然是以前的动作，否则downLoading都无法进入了，需要自定义实现
         if (this.pullState === STATE_PULL_READY_SECRETGARDEN) {
             this._inSecretGarden();
 
             return false;
-        } else {
-            return true;
         }
-    };
+        return true;
+    }
 
     /**
      * 重写下拉动画
@@ -201,27 +198,27 @@ class taobao extends utils.theme.defaults {
         this.downWrapProgress.classList.add(CLASS_ROTATE);
         // 默认和contentWrap的同步
         this._transformDownWrap(-this.downWrapHeight + this.options.down.offset, this.options.down.bounceTime);
-    };
+    }
 
     /**
      * 重写success 但是什么都不做
      * 秘密花园状态下无法进入
      */
-    _downLoaingSuccessHook() { };
+    _downLoaingSuccessHook() { }
 
     /**
      * 重写下拉end
      * 秘密花园状态下无法进入
      * @param {Boolean} isSuccess 是否下拉请求成功
      */
-    _downLoaingEndHook(isSuccess) {
+    _downLoaingEndHook() {
         this.downWrapTips.innerText = this.options.down.contentdown;
         this.downWrapProgress.classList.remove(CLASS_ROTATE);
         // 默认和contentWrap的同步
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
         // 需要重置回来
         this.pullState = STATE_PULL_DEFAULT;
-    };
+    }
 
     /**
      * 取消loading的回调
@@ -230,14 +227,14 @@ class taobao extends utils.theme.defaults {
         // 默认和contentWrap的同步
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
         this.pullState = STATE_PULL_DEFAULT;
-    };
+    }
 
     /**
      * 秘密花园的动画
      * @param {Boolean} isInAnim 是否是进入
      */
     _secretGardenAnimation(isInAnim) {
-        var bgAnimClassAdd = isInAnim ? CLASS_SECRET_GARDEN_BG_IN : CLASS_SECRET_GARDEN_BG_OUT,
+        let bgAnimClassAdd = isInAnim ? CLASS_SECRET_GARDEN_BG_IN : CLASS_SECRET_GARDEN_BG_OUT,
             bgAnimClassRemove = isInAnim ? CLASS_SECRET_GARDEN_BG_OUT : CLASS_SECRET_GARDEN_BG_IN,
             moonAnimClassAdd = isInAnim ? CLASS_SECRET_GARDEN_MOON_IN : CLASS_SECRET_GARDEN_MOON_OUT,
             moonAnimClassRemove = isInAnim ? CLASS_SECRET_GARDEN_MOON_OUT : CLASS_SECRET_GARDEN_MOON_IN;
@@ -248,14 +245,14 @@ class taobao extends utils.theme.defaults {
 
         this.downWrapMoon.classList.remove(moonAnimClassRemove);
         this.downWrapMoon.classList.add(moonAnimClassAdd);
-    };
+    }
 
     /**
      * 进入秘密花园
      * 在秘密花园状态下走入的是这个实现
      */
     _inSecretGarden() {
-        var downBounceTime = this.options.down.bounceTime,
+        let downBounceTime = this.options.down.bounceTime,
             inSecretGardenCb = this.options.down.secretGarden.inSecretGarden;
 
         this.downWrapTips.classList.add(CLASS_HIDDEN);
@@ -264,13 +261,13 @@ class taobao extends utils.theme.defaults {
         this._transformDownWrap(this.contentWrap.clientHeight - this.downWrapHeight, downBounceTime);
         this._secretGardenAnimation(true);
         inSecretGardenCb && inSecretGardenCb();
-    };
+    }
 
     /**
      * 重置秘密花园
      */
     resetSecretGarden() {
-        var downBounceTime = this.options.down.bounceTime;
+        const downBounceTime = this.options.down.bounceTime;
 
         // 重置scroll
         this.scroller.translateContentWrap(0, downBounceTime);
@@ -279,13 +276,7 @@ class taobao extends utils.theme.defaults {
         this._secretGardenAnimation(false);
         // 需要重置回来
         this.pullState = STATE_PULL_DEFAULT;
-    };
-};
+    }
+}
 
-// 挂载主题，这样多个主题可以并存
-// utils.namespace('theme.taobao', taobao);
-
-// 覆盖全局对象，使的全局对象只会指向一个最新的主题
-// globalContext.MiniRefresh = MiniRefreshTheme;
-
-export default taobao
+export default taobao;

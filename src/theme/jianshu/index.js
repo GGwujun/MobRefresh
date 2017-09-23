@@ -3,7 +3,7 @@
  * 复用了default的代码
  * 下拉动画时完全自定义重写，不移动scroll，而是直接css动画
  */
-import utils from '../../utils';
+import utils from '../../utils/index';
 import './index.css';
 
 
@@ -11,17 +11,17 @@ import './index.css';
  * 一些默认提供的CSS类，一般来说不会变动（由框架提供的）
  * theme字段会根据不同的主题有不同值
  */
-var CLASS_THEME = 'minirefresh-theme-jianshu';
+const CLASS_THEME = 'minirefresh-theme-jianshu';
 
 /**
  * 一些常量
  * 默认高度是200
  * 其中背景默认是黑色，内容是白色，再增设阻尼系数可以较好的达到3D效果
  */
-var DEFAULT_DOWN_HEIGHT = 200,
+let DEFAULT_DOWN_HEIGHT = 200,
     DOWN_SHADOW_HEIGHT = 2;
 
-var defaultSetting = {
+const defaultSetting = {
     down: {
         offset: 100,
         // 阻尼系数，下拉的距离大于offset时,改变下拉区域高度比例;值越接近0,高度变化越小,表现为越往下越难拉
@@ -29,18 +29,17 @@ var defaultSetting = {
         bounceTime: 500,
         successAnim: {
             // successAnim
-            isEnable: false
+            isEnable: false,
         },
         // 继承了default的downWrap部分代码，需要这个变量
         isWrapCssTranslate: true,
         // 是否scroll在下拉时会进行css移动，本主题关闭它，完全自定义
         // 这种方案记得修改动画区域的index
-        isScrollCssTranslate: false
-    }
+        isScrollCssTranslate: false,
+    },
 };
 
 class jianshu extends utils.theme.defaults {
-
     /**
      * 拓展自定义的配置
      * @param {Object} options 配置参数
@@ -48,7 +47,7 @@ class jianshu extends utils.theme.defaults {
     constructor(options) {
         options = utils.extend(true, {}, defaultSetting, options);
         super(options);
-    };
+    }
 
     /**
      * 重写下拉刷新初始化，变为小程序自己的动画
@@ -57,8 +56,8 @@ class jianshu extends utils.theme.defaults {
         // 先复用default代码，然后重写
         super._initDownWrap();
 
-        var container = this.container,
-            options = this.options,
+        let container = this.container,
+            // options = this.options,
             downWrap = this.downWrap;
 
         // 改写内容区域
@@ -80,11 +79,11 @@ class jianshu extends utils.theme.defaults {
         this.downWrapHeight = DOWN_SHADOW_HEIGHT + downWrap.offsetHeight || DEFAULT_DOWN_HEIGHT;
         // 由于downWrap被改变了，重新移动
         this._transformDownWrap(-this.downWrapHeight);
-    };
+    }
     _transformDownWrap(offset, duration) {
         super._transformDownWrap(offset, duration);
         this._transformDrawer(offset, duration);
-    };
+    }
     _transformDrawer(offset, duration) {
         if (!this.drawerMask) {
             return;
@@ -93,15 +92,15 @@ class jianshu extends utils.theme.defaults {
         offset = offset || 0;
         duration = duration || 0;
 
-        var opacity = (-offset - this.options.down.offset) / this.downWrapHeight;
+        let opacity = (-offset - this.options.down.offset) / this.downWrapHeight;
 
         opacity = Math.min(1, opacity);
         opacity = Math.max(0, opacity);
 
         this.drawerMask.style.opacity = opacity;
-        this.drawerMask.style.webkitTransitionDuration = duration + 'ms';
-        this.drawerMask.style.transitionDuration = duration + 'ms';
-    };
+        this.drawerMask.style.webkitTransitionDuration = `${duration}ms`;
+        this.drawerMask.style.transitionDuration = `${duration}ms`;
+    }
 
     /**
      * 重写下拉过程动画
@@ -111,7 +110,7 @@ class jianshu extends utils.theme.defaults {
     _pullHook(downHight, downOffset) {
         // 复用default的同名函数代码           
         super._pullHook(downHight, downOffset);
-    };
+    }
 
     /**
      * 重写下拉动画
@@ -119,12 +118,12 @@ class jianshu extends utils.theme.defaults {
     _downLoaingHook() {
         // loading中已经translate了
         super._downLoaingHook();
-    };
+    }
 
     /**
      * 重写success 但是什么都不做
      */
-    _downLoaingSuccessHook() { };
+    _downLoaingSuccessHook() { }
 
     /**
      * 重写下拉end
@@ -132,20 +131,14 @@ class jianshu extends utils.theme.defaults {
      */
     _downLoaingEndHook(isSuccess) {
         super._downLoaingEndHook(isSuccess);
-    };
+    }
 
     /**
      * 取消loading的回调
      */
     _cancelLoaingHook() {
         super._cancelLoaingHook();
-    };
-};
+    }
+}
 
-// 挂载主题，这样多个主题可以并存
-// utils.namespace('theme.jianshu', jianshu);
-
-// 覆盖全局对象，使的全局对象只会指向一个最新的主题
-// globalContext.MiniRefresh = MiniRefreshTheme;
-
-export default jianshu
+export default jianshu;

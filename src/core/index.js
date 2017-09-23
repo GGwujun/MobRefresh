@@ -20,10 +20,10 @@
  * _beforeDownLoadingHook(downHight, downOffset)一个特殊的hook，返回false时代表不会走入下拉刷新loading，完全自定义实现动画，默认为返回true
  */
 
-import utils from '../utils';
-import scroll from '../scroll';
+import utils from '../utils/index';
+import scroll from '../scroll/index';
 
-var defaultSetting = {
+const defaultSetting = {
     // 下拉有关
     down: {
         // 默认没有锁定，可以通过API动态设置
@@ -47,13 +47,13 @@ var defaultSetting = {
         successAnim: {
             // 下拉刷新结束后是否有成功动画，默认为false，如果想要有成功刷新xxx条数据这种操作，请设为true，并实现对应hook函数
             isEnable: false,
-            duration: 300
+            duration: 300,
         },
         // 下拉时会提供回调，默认为null不会执行
         onPull: null,
         // 取消时回调
         onCalcel: null,
-        callback: utils.noop
+        callback: utils.noop,
     },
     // 上拉有关
     up: {
@@ -68,11 +68,11 @@ var defaultSetting = {
         loadFull: {
             // 开启配置后，只要没满屏幕，就会自动加载
             isEnable: true,
-            delay: 300
+            delay: 300,
         },
         // 滚动时会提供回调，默认为null不会执行
         onScroll: null,
-        callback: utils.noop
+        callback: utils.noop,
     },
     // 容器
     container: '#minirefresh',
@@ -80,7 +80,7 @@ var defaultSetting = {
     isLockX: true,
     // 是否使用body对象的scroll而不是minirefresh-scroll对象的scroll
     // 开启后一个页面只能有一个下拉刷新，否则会有冲突
-    isUseBodyScroll: false
+    isUseBodyScroll: false,
 };
 
 class core {
@@ -111,46 +111,44 @@ class core {
         // 如果初始化时锁定了，需要触发锁定，避免没有锁定时解锁（会触发逻辑bug）
         options.up.isLock && this._lockUpLoading(options.up.isLock);
         options.down.isLock && this._lockDownLoading(options.down.isLock);
-    };
+    }
     _resetOptions() {
-        var options = this.options;
+        const options = this.options;
         this._lockUpLoading(options.up.isLock);
         this._lockDownLoading(options.down.isLock);
-    };
+    }
     _initEvent() {
-        var self = this,
+        let self = this,
             options = self.options;
 
-        this.scroller.on('downLoading', function (isHideLoading) {
+        this.scroller.on('downLoading', (isHideLoading) => {
             !isHideLoading && self._downLoaingHook && self._downLoaingHook();
             options.down.callback && options.down.callback();
         });
 
-        this.scroller.on('cancelLoading', function () {
+        this.scroller.on('cancelLoading', () => {
             self._cancelLoaingHook && self._cancelLoaingHook();
             options.down.onCalcel && options.down.onCalcel();
         });
 
-        this.scroller.on('upLoading', function () {
+        this.scroller.on('upLoading', () => {
             self._upLoaingHook && self._upLoaingHook(self.options.up.isShowUpLoading);
             options.up.callback && options.up.callback();
         });
 
-        this.scroller.on('pull', function (downHight, downOffset) {
+        this.scroller.on('pull', (downHight, downOffset) => {
             self._pullHook && self._pullHook(downHight, downOffset);
             options.down.onPull && options.down.onPull(downHight, downOffset);
         });
 
-        this.scroller.on('scroll', function (scrollTop) {
+        this.scroller.on('scroll', (scrollTop) => {
             self._scrollHook && self._scrollHook(scrollTop);
             options.up.onScroll && options.up.onScroll(scrollTop);
         });
 
         // 检查是否允许普通的加载中，如果返回false，就代表自定义下拉刷新，通常自己处理
-        this.scroller.hook('beforeDownLoading', function (downHight, downOffset) {
-            return !self._beforeDownLoadingHook || self._beforeDownLoadingHook(downHight, downOffset);
-        });
-    };
+        this.scroller.hook('beforeDownLoading', (downHight, downOffset) => !self._beforeDownLoadingHook || self._beforeDownLoadingHook(downHight, downOffset));
+    }
 
     /**
      * 内部执行，结束下拉刷新
@@ -159,7 +157,7 @@ class core {
      * 在开启了成功动画时，往往成功的提示是需要由外传入动态更新的，譬如  update 10 news
      */
     _endDownLoading(isSuccess, successTips) {
-        var self = this;
+        const self = this;
 
         if (!this.options.down) {
             // 防止没传down导致错误
@@ -168,7 +166,7 @@ class core {
 
         if (this.scroller.downLoading) {
             // 必须是loading时才允许执行对应hook
-            var successAnim = this.options.down.successAnim.isEnable,
+            let successAnim = this.options.down.successAnim.isEnable,
                 successAnimTime = this.options.down.successAnim.duration;
 
             if (successAnim) {
@@ -179,15 +177,14 @@ class core {
                 successAnimTime = 0;
             }
 
-            setTimeout(function () {
+            setTimeout(() => {
                 // 成功动画结束后就可以重置位置了
                 self.scroller.endDownLoading();
                 // 触发结束hook
                 self._downLoaingEndHook && self._downLoaingEndHook(isSuccess);
-
             }, successAnimTime);
         }
-    };
+    }
 
     /**
      * 内部执行，结束上拉加载
@@ -198,14 +195,14 @@ class core {
             this.scroller.endUpLoading(isFinishUp);
             this._upLoaingEndHook && this._upLoaingEndHook(isFinishUp);
         }
-    };
+    }
 
     /**
      * 重新刷新上拉加载，刷新后会变为可以上拉加载
      */
     _resetUpLoading() {
         this.scroller.resetUpLoading();
-    };
+    }
 
     /**
      * 锁定上拉加载
@@ -215,7 +212,7 @@ class core {
     _lockUpLoading(isLock) {
         this.scroller.lockUp(isLock);
         this._lockUpLoadingHook && this._lockUpLoadingHook(isLock);
-    };
+    }
 
     /**
      * 锁定下拉刷新
@@ -224,7 +221,7 @@ class core {
     _lockDownLoading(isLock) {
         this.scroller.lockDown(isLock);
         this._lockDownLoadingHook && this._lockDownLoadingHook(isLock);
-    };
+    }
 
     /**
      * 刷新minirefresh的配置，关键性的配置请不要更新，如容器，回调等
@@ -235,7 +232,7 @@ class core {
         this.scroller.refreshOptions(this.options);
         this._resetOptions(options);
         this._refreshHook && this._refreshHook();
-    };
+    }
 
     /**
      * 结束下拉刷新
@@ -248,14 +245,14 @@ class core {
         this._endDownLoading(isSuccess, successTips);
         // 同时恢复上拉加载的状态，注意，此时没有传isShowUpLoading，所以这个值不会生效
         this._resetUpLoading();
-    };
+    }
 
     /**
      * 重置上拉加载状态,如果是没有更多数据后重置，会变为可以继续上拉加载
      */
     resetUpLoading() {
         this._resetUpLoading();
-    };
+    }
 
     /**
      * 结束上拉加载
@@ -264,14 +261,14 @@ class core {
      */
     endUpLoading(isFinishUp) {
         this._endUpLoading(isFinishUp);
-    };
+    }
 
     /**
      * 触发上拉加载
      */
     triggerUpLoading() {
         this.scroller.triggerUpLoading();
-    };
+    }
 
     /**
      * 触发下拉刷新
@@ -279,7 +276,7 @@ class core {
     triggerDownLoading() {
         this.scroller.scrollTo(0);
         this.scroller.triggerDownLoading();
-    };
+    }
 
     /**
      * 滚动到指定的y位置
@@ -291,4 +288,4 @@ class core {
     }
 }
 
-export default core
+export default core;

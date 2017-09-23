@@ -4,19 +4,14 @@
  * 外部主题会用 MiniRefresh变量
  */
 
-'use strict';
 
 const utils = {};
 
 utils.noop = () => { };
 
-utils.isFunction = (obj) => {
-    return Object.prototype.toString.call(obj) === '[object Function]'
-};
+utils.isFunction = obj => Object.prototype.toString.call(obj) === '[object Function]';
 
-utils.isObject = (obj) => {
-    return Object.prototype.toString.call(obj) === '[object Object]'
-};
+utils.isObject = obj => Object.prototype.toString.call(obj) === '[object Object]';
 
 utils.isArray = Array.isArray ||
     function (array) {
@@ -31,10 +26,10 @@ utils.isArray = Array.isArray ||
  * @return {Object} 拓展后的对象
  */
 utils.extend = function () {
-    var args = [].slice.call(arguments);
+    const args = [].slice.call(arguments);
 
     // 目标
-    var target = args[0] || {},
+    let target = args[0] || {},
         // 默认source从1开始
         index = 1,
         len = args.length,
@@ -55,17 +50,17 @@ utils.extend = function () {
 
     for (; index < len; index++) {
         // source的拓展
-        var source = args[index];
+        const source = args[index];
 
         if (source && utils.isObject(source)) {
-            for (var name in source) {
+            for (const name in source) {
                 if (!Object.prototype.hasOwnProperty.call(source, name)) {
                     // 防止原型上的数据
                     continue;
                 }
 
-                var src = target[name];
-                var copy = source[name];
+                const src = target[name];
+                const copy = source[name];
                 var clone,
                     copyIsArray;
 
@@ -112,7 +107,7 @@ utils.selector = function (element) {
  * @return {Number} 返回最终的高度
  */
 utils.getClientHeightByDom = function (dom) {
-    var height = dom.clientHeight;
+    let height = dom.clientHeight;
     if (dom === document.body && document.compatMode === 'CSS1Compat') {
         // PC上body的可视区的特殊处理
         height = document.documentElement.clientHeight;
@@ -127,27 +122,26 @@ utils.getClientHeightByDom = function (dom) {
  * @return {Object} 返回最终的对象
  */
 utils.namespace = function (namespace, obj) {
-    var parent = utils;
+    let parent = utils;
 
     if (!namespace) {
         return parent;
     }
 
-    var namespaceArr = namespace.split('.'),
+    let namespaceArr = namespace.split('.'),
         len = namespaceArr.length;
 
-    for (var i = 0; i < len - 1; i++) {
-        var tmp = namespaceArr[i];
+    for (let i = 0; i < len - 1; i++) {
+        const tmp = namespaceArr[i];
 
         // 不存在的话要重新创建对象
         parent[tmp] = parent[tmp] || {};
         // parent要向下一级
         parent = parent[tmp];
-
     }
     parent[namespaceArr[len - 1]] = obj;
 
     return parent[namespaceArr[len - 1]];
 };
 
-export default utils
+export default utils;

@@ -1,9 +1,9 @@
-import defaults from './theme';
-import jianshu from './theme/jianshu';
-import taobao from './theme/taobao';
-import applet from './theme/applet';
-import drawer3d from './theme/drawer3d';
-import drawerslider from './theme/drawerslider';
+import defaults from './theme/index';
+import jianshu from './theme/jianshu/index';
+import taobao from './theme/taobao/index';
+import applet from './theme/applet/index';
+import drawer3d from './theme/drawer3d/index';
+import drawerslider from './theme/drawerslider/index';
 
 const themeMap = {
     defaults,
@@ -11,11 +11,9 @@ const themeMap = {
     taobao,
     applet,
     drawer3d,
-    drawerslider
-}
-const pagerefresh = function (position) {
-    return new themeMap[position.theme](position)
-}
+    drawerslider,
+};
 
-export default pagerefresh
-export { pagerefresh }
+export default function pagerefresh(position) {
+    return new themeMap[position.theme ? position.theme : 'defaults'](position);
+}

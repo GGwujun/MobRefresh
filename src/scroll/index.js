@@ -2,26 +2,26 @@
  * MiniRerefresh 处理滑动监听的关键代码，都是逻辑操作，没有UI实现
  * 依赖于一个 MiniRefresh对象
  */
-import utils from '../utils'
+import utils from '../utils/index';
 
 /**
  * 每秒多少帧
  */
-var SECOND_MILLIONS = 1000,
+let SECOND_MILLIONS = 1000,
     NUMBER_FRAMES = 60,
     PER_SECOND = SECOND_MILLIONS / NUMBER_FRAMES;
 
 /**
  * 定义一些常量
  */
-var EVENT_SCROLL = 'scroll',
+let EVENT_SCROLL = 'scroll',
     EVENT_PULL = 'pull',
     EVENT_UP_LOADING = 'upLoading',
     EVENT_DOWN_LOADING = 'downLoading',
     EVENT_CANCEL_LOADING = 'cancelLoading',
     HOOK_BEFORE_DOWN_LOADING = 'beforeDownLoading';
 
-var rAF = window.requestAnimationFrame ||
+const rAF = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
@@ -31,7 +31,7 @@ var rAF = window.requestAnimationFrame ||
         window.setTimeout(callback, PER_SECOND);
     };
 
-var Scroll = function (minirefresh) {
+const Scroll = function (minirefresh) {
     this.minirefresh = minirefresh;
     this.container = minirefresh.container;
     this.contentWrap = minirefresh.contentWrap;
@@ -58,10 +58,10 @@ var Scroll = function (minirefresh) {
     this._initPullDown();
     this._initPullUp();
 
-    var self = this;
+    const self = this;
 
     // 在初始化完毕后，下一个循环的开始再执行
-    setTimeout(function () {
+    setTimeout(() => {
         if (self.options.down && self.options.down.isAuto && !self.isLockDown) {
             // 如果设置了auto，则自动下拉一次
             // 需要判断是否需要动画
@@ -104,23 +104,23 @@ Scroll.prototype._translate = function (y, duration) {
     y = y || 0;
     duration = duration || 0;
 
-    var wrap = this.contentWrap;
+    const wrap = this.contentWrap;
 
-    wrap.style.webkitTransitionDuration = duration + 'ms';
-    wrap.style.transitionDuration = duration + 'ms';
-    wrap.style.webkitTransform = 'translate(0px, ' + y + 'px) translateZ(0px)';
-    wrap.style.transform = 'translate(0px, ' + y + 'px) translateZ(0px)';
+    wrap.style.webkitTransitionDuration = `${duration}ms`;
+    wrap.style.transitionDuration = `${duration}ms`;
+    wrap.style.webkitTransform = `translate(0px, ${y}px) translateZ(0px)`;
+    wrap.style.transform = `translate(0px, ${y}px) translateZ(0px)`;
 };
 
 Scroll.prototype._initPullDown = function () {
-    var self = this,
+    let self = this,
         // 考虑到options可以更新，所以缓存时请注意一定能最新
         scrollWrap = this.scrollWrap;
 
     scrollWrap.webkitTransitionTimingFunction = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
     scrollWrap.transitionTimingFunction = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
 
-    var touchstartEvent = function (e) {
+    const touchstartEvent = function (e) {
         if (self.isScrollTo) {
             // 如果执行滑动事件,则阻止touch事件,优先执行scrollTo方法
             e.preventDefault();
@@ -138,8 +138,8 @@ Scroll.prototype._initPullDown = function () {
     scrollWrap.addEventListener('touchstart', touchstartEvent);
     scrollWrap.addEventListener('mousedown', touchstartEvent);
 
-    var touchmoveEvent = function (e) {
-        var options = self.options,
+    const touchmoveEvent = function (e) {
+        let options = self.options,
             isAllowDownloading = true;
 
         if (self.downLoading) {
@@ -153,8 +153,8 @@ Scroll.prototype._initPullDown = function () {
             // 列表在顶部且不在加载中，并且没有锁住下拉动画
 
             // 当前第一个手指距离列表顶部的距离
-            var curY = e.touches ? e.touches[0].pageY : e.clientY;
-            var curX = e.touches ? e.touches[0].pageX : e.clientX;
+            const curY = e.touches ? e.touches[0].pageY : e.clientY;
+            const curX = e.touches ? e.touches[0].pageX : e.clientX;
 
             if (!self.preY) {
                 // 设置上次移动的距离，作用是用来计算滑动方向
@@ -162,13 +162,13 @@ Scroll.prototype._initPullDown = function () {
             }
 
             // 和上次比,移动的距离 (大于0向下,小于0向上)
-            var diff = curY - self.preY;
+            const diff = curY - self.preY;
 
             self.preY = curY;
 
             // 和起点比,移动的距离,大于0向下拉
-            var moveY = curY - self.startY;
-            var moveX = curX - self.startX;
+            const moveY = curY - self.startY;
+            const moveX = curX - self.startX;
 
             // 如果锁定横向滑动并且横向滑动更多，阻止默认事件
             if (options.isLockX && Math.abs(moveX) > Math.abs(moveY)) {
@@ -189,7 +189,7 @@ Scroll.prototype._initPullDown = function () {
                     self.downHight = 0;
                 }
 
-                var downOffset = options.down.offset,
+                let downOffset = options.down.offset,
                     dampRate = 1;
 
                 if (self.downHight < downOffset) {
@@ -219,14 +219,13 @@ Scroll.prototype._initPullDown = function () {
                 }
             }
         }
-
     };
 
     scrollWrap.addEventListener('touchmove', touchmoveEvent);
     scrollWrap.addEventListener('mousemove', touchmoveEvent);
 
-    var touchendEvent = function (e) {
-        var options = self.options;
+    const touchendEvent = function () {
+        const options = self.options;
 
         // 需要重置状态
         if (self.isMoveDown) {
@@ -253,18 +252,17 @@ Scroll.prototype._initPullDown = function () {
     scrollWrap.addEventListener('touchend', touchendEvent);
     scrollWrap.addEventListener('mouseup', touchendEvent);
     scrollWrap.addEventListener('mouseleave', touchendEvent);
-
 };
 
 Scroll.prototype._initPullUp = function () {
-    var self = this,
+    let self = this,
         scrollWrap = this.scrollWrap;
 
     // 如果是Body上的滑动，需要监听window的scroll
-    var targetScrollDom = scrollWrap === document.body ? window : scrollWrap;
+    const targetScrollDom = scrollWrap === document.body ? window : scrollWrap;
 
-    targetScrollDom.addEventListener('scroll', function () {
-        var scrollTop = scrollWrap.scrollTop,
+    targetScrollDom.addEventListener('scroll', () => {
+        let scrollTop = scrollWrap.scrollTop,
             scrollHeight = scrollWrap.scrollHeight,
             clientHeight = utils.getClientHeightByDom(scrollWrap),
             options = self.options;
@@ -273,7 +271,7 @@ Scroll.prototype._initPullUp = function () {
 
         if (!self.upLoading) {
             if (!self.isLockUp && !self.isFinishUp) {
-                var toBottom = scrollHeight - clientHeight - scrollTop;
+                const toBottom = scrollHeight - clientHeight - scrollTop;
 
                 if (toBottom <= options.up.offset) {
                     // 满足上拉加载
@@ -285,11 +283,11 @@ Scroll.prototype._initPullUp = function () {
 };
 
 Scroll.prototype._loadFull = function () {
-    var self = this,
+    let self = this,
         scrollWrap = this.scrollWrap,
         options = this.options;
 
-    setTimeout(function () {
+    setTimeout(() => {
         // 在下一个循环中运行
         if (!self.isLockUp && options.up.loadFull.isEnable && scrollWrap.scrollHeight <= utils.getClientHeightByDom(scrollWrap)) {
             self.triggerUpLoading();
@@ -298,7 +296,7 @@ Scroll.prototype._loadFull = function () {
 };
 
 Scroll.prototype.triggerDownLoading = function () {
-    var self = this,
+    let self = this,
         options = this.options,
         bounceTime = options.down.bounceTime;
 
@@ -317,12 +315,11 @@ Scroll.prototype.triggerDownLoading = function () {
  * @param {Number} duration 回弹时间
  */
 Scroll.prototype.endDownLoading = function () {
-    var self = this,
+    let self = this,
         options = this.options,
         bounceTime = options.down.bounceTime;
 
     if (this.downLoading) {
-
         // 必须是loading时才允许结束
         self._translate(0, bounceTime);
         self.downHight = 0;
@@ -341,7 +338,6 @@ Scroll.prototype.triggerUpLoading = function () {
  */
 Scroll.prototype.endUpLoading = function (isFinishUp) {
     if (this.upLoading) {
-
         this.upLoading = false;
 
         if (isFinishUp) {
@@ -358,20 +354,20 @@ Scroll.prototype.endUpLoading = function (isFinishUp) {
  * @param {Number} duration 单位毫秒
  */
 Scroll.prototype.scrollTo = function (y, duration) {
-    var self = this,
+    let self = this,
         scrollWrap = this.scrollWrap;
 
     y = y || 0;
     duration = duration || 0;
 
     // 最大可滚动的y
-    var maxY = scrollWrap.scrollHeight - utils.getClientHeightByDom(scrollWrap);
+    const maxY = scrollWrap.scrollHeight - utils.getClientHeightByDom(scrollWrap);
 
     y = Math.max(y, 0);
     y = Math.min(y, maxY);
 
     // 差值 (可能为负)
-    var diff = scrollWrap.scrollTop - y;
+    const diff = scrollWrap.scrollTop - y;
 
     if (diff === 0) {
         return;
@@ -383,8 +379,8 @@ Scroll.prototype.scrollTo = function (y, duration) {
     }
 
     // 每秒60帧，计算一共多少帧，然后每帧的步长
-    var count = duration / PER_SECOND;
-    var step = diff / (count),
+    const count = duration / PER_SECOND;
+    let step = diff / (count),
         i = 0;
 
     // 锁定状态
@@ -431,7 +427,7 @@ Scroll.prototype.resetUpLoading = function () {
 
     // 触发一次HTML的scroll事件，以便检查当前位置是否需要加载更多
     // 需要兼容webkit和firefox
-    var evt = document.createEvent('HTMLEvents');
+    const evt = document.createEvent('HTMLEvents');
 
     // 这个事件没有必要冒泡，firefox内参数必须完整
     evt.initEvent('scroll', false, true);
@@ -467,4 +463,4 @@ Scroll.prototype.hook = function (hook, callback) {
     this.hooks[hook] = callback;
 };
 
-export  default  Scroll
+export default Scroll;
