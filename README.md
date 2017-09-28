@@ -12,8 +12,6 @@
 
 优雅的H5下拉刷新。零依赖，高性能，多主题，易拓展。
 
-### [http://www.minirefresh.com](http://www.minirefresh.com)
-
 
 ## Notice
 
@@ -128,9 +126,6 @@ pagerefresh.endDownLoading();
 pagerefresh.endUpLoading(true);
 ```
 
-### 更多
-
-更多的使用请参考官方文档
 
 ## 效果
 
