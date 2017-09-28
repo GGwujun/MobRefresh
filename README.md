@@ -37,11 +37,11 @@ __喜欢，你就给一个star!__
 
 - 完善的文档与示例，提供完善的showcase，以及文档
 
-## 官网与文档
+## 文档
 
-[http://www.minirefresh.com](http://www.minirefresh.com)
+[https://ggwujun.github.io/page-refresh-com/](https://ggwujun.github.io/page-refresh-com/)
 
-[https://minirefresh.github.io/](https://minirefresh.github.io/)
+[https://ggwujun.gitbooks.io/page-refresh/content/](https://ggwujun.gitbooks.io/page-refresh/content/)
 
 ## 安装
 
@@ -184,13 +184,6 @@ __4. 【drawer-slider】滑动抽屉效果主题__
 
 ![](https://minirefresh.github.io/minirefresh/staticresource/screenshoot/theme_drawerslider.gif)
 
-## showcase
-
-可以直接在线体验效果
-
-[https://minirefresh.github.io/minirefresh/examples/](https://minirefresh.github.io/minirefresh/examples/)
-
-![](https://minirefresh.github.io/minirefresh/staticresource/showcase/qrcode.png)
 
 ## 贡献
 
