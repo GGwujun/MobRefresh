@@ -13,7 +13,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <title>nested muiscroll</title>
         <link rel="stylesheet" href="libs/mui/css/mui.min.css" />
-        <link rel="stylesheet" href="../../dist/debug/minirefresh.css" />
+        <link rel="stylesheet" href="../dist/debug/pagerefresh.css" />
         <link rel="stylesheet" href="../common/common.css" />
         <style>
             .mui-fullscreen {
@@ -33,7 +33,7 @@
     <body>
 
         <nav class="navbar-header">
-            <a class="nav-btn-left" href="../index.html">dashboard</a>
+            <a class="nav-btn-left" href="../index.html">返回</a>
             嵌套mui-scroll
         </nav>
         <div class="content">
@@ -133,7 +133,7 @@
         </div>
 
         <script type="text/javascript" src="libs/mui/js/mui.min.js"></script>
-        <script type="text/javascript" src="../../dist/debug/minirefresh.js"></script>
+        <script type="text/javascript" src="../dist/debug/pagerefresh.js"></script>
         <script type="text/javascript" src="../common/common.js"></script>
         <script>
             var appendTestData = Common.appendTestData,
@@ -147,7 +147,7 @@
 
                 listDomArr[index] = document.querySelector('#listdata' + index);
 
-                miniRefreshArr[index] = new MiniRefresh({
+                miniRefreshArr[index] = new pagerefresh({
                     container: '#minirefresh' + index,
                     down: {
                         callback: function() {

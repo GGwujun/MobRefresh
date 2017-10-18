@@ -11,14 +11,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <title>vue support</title>
-        <link rel="stylesheet" href="../../dist/debug/minirefresh.css" />
+        <link rel="stylesheet" href="../dist/debug/pagerefresh.css" />
         <link rel="stylesheet" href="../common/common.css" />
     </head>
 
     <body>
 
         <nav class="navbar-header">
-            <a class="nav-btn-left" href="../index.html">dashboard</a>
+            <a class="nav-btn-left" href="../index.html">返回</a>
             vue的支持
         </nav>
         <div class="content">
@@ -28,19 +28,21 @@
 
                     <ul class="data-list" id="listdata">
                         <li v-for="item in listData" class="list-item">
-                            <h3 class="msg-title">
-                                {{item.title}}
-                            </h3>
-                            <span class="msg-fs14 msg-date">
+							<img class="pd-img" src="../res/img/pd1.jpg">
+							<p class="pd-name">{{item.title}}</p>
+                            <p class="pd-price">1149 元</p>
+							<p class="pd-sold">已售648件</p>
+                            <!-- <span class="msg-fs14 msg-date">
                                 {{item.date}}
-                            </span>
+                            </span> -->
+							
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <script type="text/javascript" src="vue.min.js"></script>
-        <script type="text/javascript" src="../../dist/debug/minirefresh.js"></script>
+        <script type="text/javascript" src="../dist/debug/pagerefresh.js"></script>
         <script>
             new Vue({
                 el: ".content",
@@ -54,7 +56,7 @@
                 mounted: function() {
                     var self = this;
 
-                    self.miniRefresh = new MiniRefresh({
+                    self.miniRefresh = new pagerefresh({
                         container: '#minirefresh',
                         down: {
                             callback: self.downCallback
@@ -86,19 +88,13 @@
                         if (isReset) {
                             this.counter = 0;
                         }
-
-                        var res = [],
-                            dateStr = (new Date()).toLocaleString();
-
+                        var res = [];
                         for (var i = 0; i < count; i++) {
                             res.push({
-                                title: '测试第【' + this.counter + '】条新闻标题',
-                                date: dateStr
+                                title: '测试第【' + this.counter + '】六罐装荷兰美素佳儿金装2段900g',
                             });
-                            
                             this.counter++;
                         }
-
                         return res;
                     }
                 }

@@ -14,6 +14,24 @@ const themeMap = {
     drawerslider,
 };
 
-export default function pagerefresh(position) {
-    return new themeMap[position.theme ? position.theme : 'defaults'](position);
+
+class pagerefresh {
+    /**
+     * 构造函数
+     * @param {Object} options 配置信息
+     * @constructor
+     */
+    constructor(options) {
+        return new themeMap[position.theme ? position.theme : 'defaults'](position);
+    }
 }
+
+
+pagerefresh.version = '0.0.1';
+
+export default pagerefresh;
+
+
+// export default function pagerefresh(position) {
+//     return new themeMap[position.theme ? position.theme : 'defaults'](position);
+// }

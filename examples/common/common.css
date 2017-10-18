@@ -44,7 +44,7 @@
     content: '';
     -webkit-transform: scaleY(.5);
     transform: scaleY(.5);
-    background-color: #c8c7cc;
+    /* background-color: #c8c7cc; */
 }
 
 .list-item:active {
@@ -53,6 +53,7 @@
 
 .msg-title {
     display: block;
+	float:left;
     font-size: 15px;
     margin: 5px;
 }
@@ -142,3 +143,91 @@
     border-radius: 20px;
     color: #FF6990;
 }
+
+body{background-color: white}
+			ul{list-style-type: none}
+			a {text-decoration: none;color: #18B4FE;}
+			
+			/*模拟的标题*/
+			.header{
+				z-index: 9990;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				text-align: center;
+				border-bottom: 1px solid #eee;
+				background-color: white;
+			}
+			.header .btn-left{
+				position: absolute;
+				top: 0;
+				left: 0;
+				padding:12px;
+				line-height: 22px;
+			}
+			.header .btn-right{
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding: 0 12px;
+			}
+			/*说明*/
+			.notice{
+				padding: 20px;
+				border-bottom: 1px solid #eee;
+				font-size: 14px;
+				line-height: 24px;
+				text-align: center;
+				color:#555;
+			}
+			.btn-change{
+				display: inline-block;
+				margin-top: 14px;
+				font-size: 14px;
+				padding: 3px 15px;
+				text-align: center;
+				border: 1px solid #FF6990;
+				border-radius: 20px;
+				color: #FF6990;
+			}
+			.btn-change:active{
+				opacity: .5;
+			}
+			/*列表*/
+			.mescroll{
+				position: fixed;
+				top: 44px;
+				bottom: 0;
+				height: auto;
+			}
+			/*展示上拉加载的数据列表*/
+			.data-list li{
+				position: relative;
+				padding: 10px 8px 10px 120px;
+				border-bottom: 1px solid #eee;
+			}
+			.data-list .list-item img.pd-img{
+				position: absolute;
+				left: 18px;
+				top: 18px;
+				width: 80px;
+				height: 80px;
+			}
+			.data-list .list-item p.pd-name{
+				font-size: 16px;
+				line-height: 20px;
+				height: 40px;
+				overflow: hidden;
+			}
+			.data-list .list-item p.pd-price{
+				margin-top: 8px;
+				color: red;
+			}
+			.data-list .list-item p.pd-sold{
+				font-size: 12px;
+				margin-top: 8px;
+				color: gray;
+			}

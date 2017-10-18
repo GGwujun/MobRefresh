@@ -13,34 +13,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <title>options list</title>
-        <link rel="stylesheet" href="../../dist/debug/minirefresh.css" />
+        <link rel="stylesheet" href="../dist/debug/pagerefresh.css" />
         <link rel="stylesheet" href="../common/common.css" />
 
     </head>
 
     <body>
         <nav class="navbar-header">
-            <a class="nav-btn-left" href="../index.html">dashboard</a>
+            <a class="nav-btn-left" href="../index.html">返回</a>
             所有通用配置项全开
         </nav>
         <div class="content">
-
-            <div id="minirefresh" class="minirefresh-wrap">
-
+            <div id="pagerefresh" class="minirefresh-wrap">
                 <div class="minirefresh-scroll">
-
                     <div class="notice">
                         <p class="btn-switch">更新options状态（默认状态）</p>
                     </div>
-
                     <ul class="data-list" id="listdata">
-
                     </ul>
                 </div>
             </div>
         </div>
 
-        <script type="text/javascript" src="../../dist/debug/minirefresh.js"></script>
+        <script type="text/javascript" src="../dist/debug/pagerefresh.js"></script>
         <script type="text/javascript" src="../common/common.js"></script>
         <script>
             var appendTestData = Common.appendTestData,
@@ -50,7 +45,7 @@
                 listDom = document.querySelector('#listdata'),
                 requestDelayTime = 600;
 
-            var miniRefresh = new MiniRefresh({
+            var pagerefresh = new pagerefresh({
                 // 下拉有关
                 down: {
                     // 默认没有锁定，可以通过API动态设置
@@ -78,7 +73,7 @@
                         setTimeout(function() {
                             // 每次下拉刷新后，上拉的状态会被自动重置
                             appendTestData(listDom, 10, true);
-                            miniRefresh.endDownLoading(true);
+                            pagerefresh.endDownLoading(true);
                         }, requestDelayTime);
                     },
                     // 下拉取消的回调
@@ -112,7 +107,7 @@
                     callback: function() {
                         setTimeout(function() {
                             appendTestData(listDom, 4);
-                            miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                            pagerefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
                         }, requestDelayTime);
                     },
                     // 滑动过程回调
@@ -121,7 +116,7 @@
                     }
                 },
                 // 容器
-                container: '#minirefresh',
+                container: '#pagerefresh',
                 isLock: true,
                 // 默认不使用body的scroll而是使用dom本身的scroll
                 // 如果使用body的scroll，一个页面请只配置一个下拉刷新，否则会有冲突
@@ -196,12 +191,12 @@
                 
                 // 更新时一些关键特征，如 容器，回调等不要改变
                 // 只演示了部分，其实例如阻尼系数等都是可以改变的
-                miniRefresh.refreshOptions(getOptionsByStatus(currStatus));
+                pagerefresh.refreshOptions(getOptionsByStatus(currStatus));
   
                 // 一些特殊处理，比如always，因为需要看出效果
                 if (needReLoadingStatus.indexOf(currStatus) !== -1) {
                     appendTestData(listDom, 0, true);
-                    miniRefresh.triggerUpLoading();
+                    pagerefresh.triggerUpLoading();
                 }
             }, 'click');
         </script>

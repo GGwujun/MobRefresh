@@ -64,14 +64,19 @@
             counterArr[counterIndex] = 0;
         }
 
-        const template = '<li class="list-item"><h3 class="msg-title">{{title}}</h3><span class="msg-fs14 msg-date">{{date}}</span></li>';
+        const template = `<li class="list-item">
+							<img class="pd-img" src="../res/img/pd1.jpg">
+							<p class="pd-name">{{title}}</p>
+							<p class="pd-price">1149 元</p>
+							<p class="pd-sold">已售648件</p>
+						</li>`
 
         let html = '',
-            dateStr = (new Date()).toLocaleString();
+            dateStr = (new Date()).toLocaleDateString();
 
         for (let i = 0; i < count; i++) {
             html += exports.renderTemplate(template, {
-                title: `${prevTitle}测试第【${counterArr[counterIndex]}】条新闻标题`,
+                title: `${prevTitle}测试第【${counterArr[counterIndex]}】六罐装荷兰美素佳儿金装2段900g`,
                 date: dateStr,
             });
             
