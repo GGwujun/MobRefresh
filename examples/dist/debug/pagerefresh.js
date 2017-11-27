@@ -1,8 +1,8 @@
 /*!
- * pagerefresh v0.0.1
+ * pagerefresh v0.0.5
  * (c) 2017-2017 dsx
  * Released under the BSD-3-Clause License.
- * https://github.com/GGwujun/page-refresh
+ * https://github.com/GGwujun/pagerefresh
  */
 
 (function (global, factory) {
@@ -2469,9 +2469,19 @@ var themeMap = {
     drawerslider: drawerslider
 };
 
-function pagerefresh(position) {
-    return new themeMap[position.theme ? position.theme : 'defaults'](position);
-}
+var pagerefresh =
+/**
+ * 构造函数
+ * @param {Object} options 配置信息
+ * @constructor
+ */
+function pagerefresh(options) {
+    classCallCheck(this, pagerefresh);
+
+    return new themeMap[options.theme ? options.theme : 'defaults'](options);
+};
+
+pagerefresh.version = '0.0.2';
 
 return pagerefresh;
 

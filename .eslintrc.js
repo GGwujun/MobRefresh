@@ -56,6 +56,7 @@ module.exports = {
 		'prefer-const':[0],
 		'func-names':[0],
 		'max-len':[0],
+		'linebreak-style':[0],
 		'prefer-rest-params':[0],
 		'no-plusplus':[0],
 		'no-var':[0],

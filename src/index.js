@@ -22,16 +22,11 @@ class pagerefresh {
      * @constructor
      */
     constructor(options) {
-        return new themeMap[position.theme ? position.theme : 'defaults'](position);
+        return new themeMap[options.theme ? options.theme : 'defaults'](options);
     }
 }
 
 
-pagerefresh.version = '0.0.1';
+pagerefresh.version = '0.0.2';
 
 export default pagerefresh;
-
-
-// export default function pagerefresh(position) {
-//     return new themeMap[position.theme ? position.theme : 'defaults'](position);
-// }

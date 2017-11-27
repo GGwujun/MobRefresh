@@ -42,7 +42,7 @@
         <script>
             var appendTestData = Common.appendTestData,
                 // 记录一个最新
-                maxDataSize = 30,
+                maxDataSize = 0,
                 listDom = document.querySelector('#listdata'),
                 requestDelayTime = 600;
 
@@ -61,7 +61,7 @@
                     callback: function() {
                         setTimeout(function() {
                             // 每次下拉刷新后，上拉的状态会被自动重置
-                            appendTestData(listDom, 10, true);
+                            appendTestData(listDom, 0, true);
                             pagerefresh.endDownLoading(true, '成功更新10条数据');
                         }, requestDelayTime);
                     }
@@ -70,7 +70,7 @@
                     isAuto: true,
                     callback: function() {
                         setTimeout(function() {
-                            appendTestData(listDom, 10);
+                            appendTestData(listDom, 0);
                             pagerefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
                         }, requestDelayTime);
                     }

@@ -1,16 +1,16 @@
 {
   "name": "pagerefresh",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "快速混合开发框架，一套JS Api，Android，iOS，浏览器环境同时运行",
-  "homepage": "https://github.com/GGwujun/page-refresh",
+  "homepage": "https://github.com/GGwujun/pagerefresh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GGwujun/page-refresh.git"
+    "url": "https://github.com/GGwujun/pagerefresh.git"
   },
   "bugs": {
-    "url": "https://github.com/GGwujun/page-refresh/issues"
+    "url": "https://github.com/GGwujun/pagerefresh/issues"
   },
-  "main": "index.js",
+  "main": "dist/release/pagerefresh.min.js",
   "scripts": {
     "test": "node_modules/.bin/karma start test/unit/karma.cover.config.js",
     "build": "node build/build.js",
