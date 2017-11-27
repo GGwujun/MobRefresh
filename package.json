@@ -1,6 +1,6 @@
 {
   "name": "pagerefresh",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "快速混合开发框架，一套JS Api，Android，iOS，浏览器环境同时运行",
   "homepage": "https://github.com/GGwujun/pagerefresh",
   "repository": {
