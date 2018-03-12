@@ -1,0 +1,68 @@
+/*
+ * 自定义下拉刷新
+ * 
+	//下拉刷新区域 (预先设置downwarp-loading样式,用于加载完成动画图片,防止首次显示动画时,图片不及时刷新导致的白屏问题;)
+	<div class="mescroll-downwarp">
+		<div class="downwarp-content">
+			<p class="downwarp-progress downwarp-loading"></p>
+		</div>
+	</div>
+ */
+
+/*下拉刷新--向下进度动画*/
+.mescroll-downwarp .downwarp-progress{
+	display: inline-block;
+	width: 50px;
+	margin: auto;
+    border: none;
+    border-radius: 0;
+	background-size: 100% 100%;
+	background-image: url(mescroll-progress0.png);
+}
+
+/*下拉刷新--进度条*/
+.mescroll-downwarp .downwarp-loading{
+	display: inline-block;
+	width: 50px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-animation: animProgress .3s steps(1,end), animLoading .3s steps(1,end) .3s infinite;
+	animation: animProgress .3s steps(1,end), animLoading .3s steps(1,end) .3s infinite;
+}
+@-webkit-keyframes animProgress {
+	0% {background-image: url(mescroll-progress0.png)}
+	16% {background-image: url(mescroll-progress1.png)}
+	32% {background-image: url(mescroll-progress2.png)}
+	48% {background-image: url(mescroll-progress3.png)}
+	64% {background-image: url(mescroll-progress4.png)}
+	80% {background-image: url(mescroll-progress5.png)}
+	100% {background-image: url(mescroll-progress0.png)}
+}
+@keyframes animProgress {
+	0% {background-image: url(mescroll-progress0.png)}
+	16% {background-image: url(mescroll-progress1.png)}
+	32% {background-image: url(mescroll-progress2.png)}
+	48% {background-image: url(mescroll-progress3.png)}
+	64% {background-image: url(mescroll-progress4.png)}
+	80% {background-image: url(mescroll-progress5.png)}
+	100% {background-image: url(mescroll-progress0.png)}
+}
+@-webkit-keyframes animLoading {
+	0% {background-image: url(mescroll-loading1.png)}
+	16% {background-image: url(mescroll-loading2.png)}
+	32% {background-image: url(mescroll-loading3.png)}
+	48% {background-image: url(mescroll-loading4.png)}
+	64% {background-image: url(mescroll-loading5.png)}
+	80% {background-image: url(mescroll-loading6.png)}
+	100% {background-image: url(mescroll-loading1.png)}
+}
+@keyframes animLoading {
+	0% {background-image: url(mescroll-loading1.png)}
+	16% {background-image: url(mescroll-loading2.png)}
+	32% {background-image: url(mescroll-loading3.png)}
+	48% {background-image: url(mescroll-loading4.png)}
+	64% {background-image: url(mescroll-loading5.png)}
+	80% {background-image: url(mescroll-loading6.png)}
+	100% {background-image: url(mescroll-loading1.png)}
+}

@@ -1,0 +1,144 @@
+/*
+ * 自定义下拉刷新和上拉加载的结构
+ * 
+	//下拉刷新区域
+	<div class="mescroll-downwarp">
+		<div class="downwarp-content">
+			<div class="downwarp-progress">
+				<div><div class="progress-left-arc"></div></div><div><div class="progress-right-arc"></div></div>
+			</div>
+			<p class="downwarp-tip">下拉即可刷新</p>
+		</div>
+	</div>
+
+	//上拉加载区域
+	<div class="mescroll-upwarp">
+		//加载中..
+		<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">正在寻找您心水的宝贝</p>
+		//无数据
+		<p class="upwarp-nodata">-- END --</p>
+	</div>
+ */
+
+/*下拉刷新*/
+.mescroll-downwarp{
+	background-color: #2B202D;
+	background-image: url(mescroll-bg.png);
+	background-size: cover;
+	background-position: 50% 55%;
+}
+
+/*下拉刷新--内容区,定位于区域底部*/
+.mescroll-downwarp .downwarp-content{
+	height: 50px;
+	background-image: url(mescroll-bg-down.png);
+	background-size: 100% 100%;
+}
+
+/*下拉刷新--旋转进度条*/
+.mescroll-downwarp .downwarp-progress{
+	position: relative;
+	width: 28px;
+	height: 28px;
+	border: none;
+}
+/*下拉刷新--旋转进度条-箭头*/
+.mescroll-downwarp .downwarp-progress:after{
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	content: "";
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background-image: url(mescroll-arrow.png);
+	background-size: contain;
+	background-position: center;
+}
+/*下拉刷新--旋转进度条-左右遮罩*/
+.mescroll-downwarp .downwarp-progress > div{
+	display: inline-block;
+	width: 14px;
+	height: 28px;
+	overflow: hidden;
+}
+/*下拉刷新--旋转进度条-左半圆*/
+.mescroll-downwarp .progress-left-arc{
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	border: 1px solid white;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+/*下拉刷新--旋转进度条-右半圆*/
+.mescroll-downwarp .progress-right-arc{
+	width: 26px;
+	height: 26px;
+	margin-left: -14px;
+	border-radius: 50%;
+	border: 1px solid white;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/*下拉刷新--旋转进度条-旋转中*/
+.mescroll-downwarp .mescroll-rotate.downwarp-progress{
+	width: 26px;
+	height: 26px;
+	border: 1px solid white;
+    border-top-color: transparent;
+}
+.mescroll-downwarp .mescroll-rotate.downwarp-progress > div,
+.mescroll-downwarp .mescroll-rotate.downwarp-progress:after{
+	display: none;
+}
+
+/*下拉刷新--提示*/
+.mescroll-downwarp .downwarp-tip{
+	min-width: 90px;
+	color: white;
+}
+
+/*淘宝二楼*/
+.mescorll-erlou{
+	z-index: 9999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url(mescorll-erlou.jpg);
+	background-size: cover;
+	background-color: #02040A;
+	opacity: 0;
+	pointer-events: none;
+}
+/*淘宝二楼--淡入显示时接收点击事件*/
+.mescroll-fade-in{
+	pointer-events: auto;
+	-webkit-animation: mescrollFadeIn 1.5s linear forwards;
+	animation: mescrollFadeIn 1.5s linear forwards;
+}
+/*淘宝二楼--淡出隐藏时取消接收事件*/
+.mescroll-fade-out{
+	pointer-events: none;
+	-webkit-animation: mescrollFadeOut 1.5s linear forwards;
+	animation: mescrollFadeOut 1.5s linear forwards;
+}
+
+/*下拉区域--淘宝二楼显示时其高度变化的动画*/
+.downwarp-erlou-show{
+	-webkit-transition: none;
+	transition: none;
+	-webkit-animation: downwarpErlouShow 2s linear;
+	animation: downwarpErlouShow 2s linear;
+}
+@-webkit-keyframes downwarpErlouShow {
+	50% {height: 200%; }
+	100% {height: 50%; }
+}

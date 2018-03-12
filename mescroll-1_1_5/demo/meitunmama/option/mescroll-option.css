@@ -1,0 +1,71 @@
+/*
+ * 自定义下拉刷新的结构
+ * 
+	//下拉刷新区域 (预先设置downwarp-progress-slow样式,用于加载完成动画图片,防止首次显示动画时,图片不及时刷新导致的白屏问题;)
+	<div class="mescroll-downwarp">
+		<p class="downwarp-progress downwarp-progress-slow"></p>
+	</div>
+ */
+
+/*下拉刷新--内容区,定位于区域底部*/
+.mescroll-downwarp .downwarp-content{
+	padding-bottom: 0;
+}
+/*下拉刷新--进度*/
+.mescroll-downwarp .downwarp-progress{
+	display: inline-block;
+	width: 120px;
+	height: 70px;
+	border: none;
+	margin: auto;
+	border-radius: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+/*下拉刷新--进度-慢*/
+.mescroll-downwarp .downwarp-progress-slow{
+	-webkit-animation: animProgressSlow 2s steps(1,end) infinite;
+	animation: animProgressSlow 2s steps(1,end) infinite;
+}
+@-webkit-keyframes animProgressSlow {
+	0% {background-image: url(mescroll-progress1.png)}
+	16% {background-image: url(mescroll-progress2.png)}
+	32% {background-image: url(mescroll-progress3.png)}
+	48% {background-image: url(mescroll-progress4.png)}
+	64% {background-image: url(mescroll-progress5.png)}
+	80% {background-image: url(mescroll-progress6.png)}
+	100% {background-image: url(mescroll-progress1.png)}
+}
+@keyframes animProgressSlow {
+	0% {background-image: url(mescroll-progress1.png)}
+	16% {background-image: url(mescroll-progress2.png)}
+	32% {background-image: url(mescroll-progress3.png)}
+	48% {background-image: url(mescroll-progress4.png)}
+	64% {background-image: url(mescroll-progress5.png)}
+	80% {background-image: url(mescroll-progress6.png)}
+	100% {background-image: url(mescroll-progress1.png)}
+}
+/*下拉刷新--进度-快*/
+.mescroll-downwarp .downwarp-progress-fast{
+	-webkit-animation: animProgressFast .6s steps(1,end) infinite;
+	animation: animProgressFast .6s steps(1,end) infinite;
+}
+@-webkit-keyframes animProgressFast {
+	0% {background-image: url(mescroll-progress1.png)}
+	16% {background-image: url(mescroll-progress2.png)}
+	32% {background-image: url(mescroll-progress3.png)}
+	48% {background-image: url(mescroll-progress4.png)}
+	64% {background-image: url(mescroll-progress5.png)}
+	80% {background-image: url(mescroll-progress6.png)}
+	100% {background-image: url(mescroll-progress1.png)}
+}
+@keyframes animProgressFast {
+	0% {background-image: url(mescroll-progress1.png)}
+	16% {background-image: url(mescroll-progress2.png)}
+	32% {background-image: url(mescroll-progress3.png)}
+	48% {background-image: url(mescroll-progress4.png)}
+	64% {background-image: url(mescroll-progress5.png)}
+	80% {background-image: url(mescroll-progress6.png)}
+	100% {background-image: url(mescroll-progress1.png)}
+}

@@ -95,7 +95,9 @@ class defaults extends core {
             container.classList.add(CLASS_BODY_SCROLL_WRAP);
             contentWrap.classList.add(CLASS_BODY_SCROLL_WRAP);
         }
-
+        /**
+         * 初始化down和up的dom
+         */
         this._initDownWrap();
         this._initUpWrap();
         // this._initToTop();
@@ -194,6 +196,11 @@ class defaults extends core {
             document.body.appendChild(toTopBtn);
         }
     }
+    /**
+     * 下拉过程中持续回调
+     * @param {*string} downHight down的高度
+     * @param {*} downOffset  距离顶部距离
+     */
     _pullHook(downHight, downOffset) {
         let options = this.options,
             FULL_DEGREE = 360;
@@ -215,6 +222,10 @@ class defaults extends core {
         this.downWrapProgress.style.transform = `rotate(${progress}deg)`;
         this._transformDownWrap(-this.downWrapHeight + downHight);
     }
+    /**
+     * 滚动过程中持续回调
+     * @param {*string} scrollTop 
+     */
     _scrollHook(scrollTop) {
         // 用来判断toTop
         let options = this.options,
@@ -236,12 +247,20 @@ class defaults extends core {
             }
         }
     }
+    /**
+     * 下拉那一刻触发回调
+     */
     _downLoaingHook() {
         // 默认和contentWrap的同步
         this._transformDownWrap(-this.downWrapHeight + this.options.down.offset, this.options.down.bounceTime);
         this.downWrapTips.innerText = this.options.down.contentrefresh;
         this.downWrapProgress.classList.add(CLASS_ROTATE);
     }
+    /**
+     * 下拉完成回调 下拉刷新的成功动画，处理成功或失败提示
+     * @param {*boolean} isSuccess 是否下拉完成
+     * @param {*string} successTips 完成的文字提示
+     */
     _downLoaingSuccessHook(isSuccess, successTips) {
         this.options.down.contentsuccess = successTips || this.options.down.contentsuccess;
         this.downWrapTips.innerText = isSuccess ? this.options.down.contentsuccess : this.options.down.contenterror;
@@ -249,6 +268,11 @@ class defaults extends core {
         this.downWrapProgress.classList.add(CLASS_FADE_OUT);
         this.downWrapProgress.classList.add(isSuccess ? CLASS_DOWN_SUCCESS : CLASS_DOWN_ERROR);
     }
+
+    /**
+     * 下拉刷新动画结束后的回调
+     * @param {*boolean} isSuccess 
+     */
     _downLoaingEndHook(isSuccess) {
         this.downWrapTips.innerText = this.options.down.contentdown;
         this.downWrapProgress.classList.remove(CLASS_ROTATE);
@@ -259,9 +283,16 @@ class defaults extends core {
         this.isCanPullDown = false;
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
     }
+    /**
+     * 取消loading的回调
+     */
     _cancelLoaingHook() {
         this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
     }
+    /**
+     * 上拉触发的那一刻回调
+     * @param {*boolean} isShowUpLoading   是否显示上拉动画
+     */
     _upLoaingHook(isShowUpLoading) {
         if (isShowUpLoading) {
             this.upWrapTips.innerText = this.options.up.contentrefresh;
@@ -272,6 +303,10 @@ class defaults extends core {
             this.upWrap.style.visibility = 'hidden';
         }
     }
+    /**
+     * 上拉加载动画结束后的回调
+     * @param {*boolean} isFinishUp 
+     */
     _upLoaingEndHook(isFinishUp) {
         if (!isFinishUp) {
             // 接下来还可以加载更多
@@ -285,9 +320,17 @@ class defaults extends core {
         this.upWrapProgress.classList.remove(CLASS_ROTATE);
         this.upWrapProgress.classList.add(CLASS_HIDDEN);
     }
+    /**
+     * 锁定上拉时的回调
+     * @param {*boolean} isLock  是否锁定
+     */
     _lockUpLoadingHook(isLock) {
         this.upWrap.style.visibility = isLock ? 'hidden' : 'visible';
     }
+    /**
+     * 锁定下拉时的回调
+     * @param {*boolean} isLock 是否锁定
+     */
     _lockDownLoadingHook(isLock) {
         this.downWrap.style.visibility = isLock ? 'hidden' : 'visible';
     }

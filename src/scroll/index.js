@@ -295,7 +295,7 @@ Scroll.prototype._loadFull = function () {
     }, options.up.loadFull.delay || 0);
 };
 
-Scroll.prototype.triggerDownLoading = function () {
+Scroll.prototype.triggerDownLoading = function (isHideLoading = false) {
     let self = this,
         options = this.options,
         bounceTime = options.down.bounceTime;
@@ -305,8 +305,7 @@ Scroll.prototype.triggerDownLoading = function () {
         self.downLoading = true;
         self.downHight = options.down.offset;
         self._translate(self.downHight, bounceTime);
-
-        self.events[EVENT_DOWN_LOADING] && self.events[EVENT_DOWN_LOADING]();
+        self.events[EVENT_DOWN_LOADING] && self.events[EVENT_DOWN_LOADING](isHideLoading);
     }
 };
 

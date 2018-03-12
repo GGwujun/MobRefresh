@@ -273,9 +273,9 @@ class core {
     /**
      * 触发下拉刷新
      */
-    triggerDownLoading() {
+    triggerDownLoading(isloading = false) {
         this.scroller.scrollTo(0);
-        this.scroller.triggerDownLoading();
+        this.scroller.triggerDownLoading(isloading);
     }
 
     /**

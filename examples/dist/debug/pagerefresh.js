@@ -1,5 +1,5 @@
 /*!
- * pagerefresh v0.0.5
+ * pagerefresh v0.0.6
  * (c) 2017-2017 dsx
  * Released under the BSD-3-Clause License.
  * https://github.com/GGwujun/pagerefresh
@@ -452,6 +452,8 @@ Scroll$1.prototype._loadFull = function () {
 };
 
 Scroll$1.prototype.triggerDownLoading = function () {
+    var isHideLoading = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
     var self = this,
         options = this.options,
         bounceTime = options.down.bounceTime;
@@ -461,8 +463,7 @@ Scroll$1.prototype.triggerDownLoading = function () {
         self.downLoading = true;
         self.downHight = options.down.offset;
         self._translate(self.downHight, bounceTime);
-
-        self.events[EVENT_DOWN_LOADING] && self.events[EVENT_DOWN_LOADING]();
+        self.events[EVENT_DOWN_LOADING] && self.events[EVENT_DOWN_LOADING](isHideLoading);
     }
 };
 
@@ -1140,8 +1141,10 @@ var core = function () {
     }, {
         key: 'triggerDownLoading',
         value: function triggerDownLoading() {
+            var isloading = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
             this.scroller.scrollTo(0);
-            this.scroller.triggerDownLoading();
+            this.scroller.triggerDownLoading(isloading);
         }
 
         /**
@@ -1256,7 +1259,9 @@ var defaults = function (_core) {
                 container.classList.add(CLASS_BODY_SCROLL_WRAP);
                 contentWrap.classList.add(CLASS_BODY_SCROLL_WRAP);
             }
-
+            /**
+             * 初始化down和up的dom
+             */
             this._initDownWrap();
             this._initUpWrap();
             // this._initToTop();
@@ -1366,6 +1371,12 @@ var defaults = function (_core) {
                 document.body.appendChild(toTopBtn);
             }
         }
+        /**
+         * 下拉过程中持续回调
+         * @param {*string} downHight down的高度
+         * @param {*} downOffset  距离顶部距离
+         */
+
     }, {
         key: '_pullHook',
         value: function _pullHook(downHight, downOffset) {
@@ -1389,6 +1400,11 @@ var defaults = function (_core) {
             this.downWrapProgress.style.transform = 'rotate(' + progress + 'deg)';
             this._transformDownWrap(-this.downWrapHeight + downHight);
         }
+        /**
+         * 滚动过程中持续回调
+         * @param {*string} scrollTop 
+         */
+
     }, {
         key: '_scrollHook',
         value: function _scrollHook(scrollTop) {
@@ -1412,6 +1428,10 @@ var defaults = function (_core) {
                 }
             }
         }
+        /**
+         * 下拉那一刻触发回调
+         */
+
     }, {
         key: '_downLoaingHook',
         value: function _downLoaingHook() {
@@ -1420,6 +1440,12 @@ var defaults = function (_core) {
             this.downWrapTips.innerText = this.options.down.contentrefresh;
             this.downWrapProgress.classList.add(CLASS_ROTATE);
         }
+        /**
+         * 下拉完成回调 下拉刷新的成功动画，处理成功或失败提示
+         * @param {*boolean} isSuccess 是否下拉完成
+         * @param {*string} successTips 完成的文字提示
+         */
+
     }, {
         key: '_downLoaingSuccessHook',
         value: function _downLoaingSuccessHook(isSuccess, successTips) {
@@ -1429,6 +1455,12 @@ var defaults = function (_core) {
             this.downWrapProgress.classList.add(CLASS_FADE_OUT);
             this.downWrapProgress.classList.add(isSuccess ? CLASS_DOWN_SUCCESS : CLASS_DOWN_ERROR);
         }
+
+        /**
+         * 下拉刷新动画结束后的回调
+         * @param {*boolean} isSuccess 
+         */
+
     }, {
         key: '_downLoaingEndHook',
         value: function _downLoaingEndHook(isSuccess) {
@@ -1441,11 +1473,20 @@ var defaults = function (_core) {
             this.isCanPullDown = false;
             this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
         }
+        /**
+         * 取消loading的回调
+         */
+
     }, {
         key: '_cancelLoaingHook',
         value: function _cancelLoaingHook() {
             this._transformDownWrap(-this.downWrapHeight, this.options.down.bounceTime);
         }
+        /**
+         * 上拉触发的那一刻回调
+         * @param {*boolean} isShowUpLoading   是否显示上拉动画
+         */
+
     }, {
         key: '_upLoaingHook',
         value: function _upLoaingHook(isShowUpLoading) {
@@ -1458,6 +1499,11 @@ var defaults = function (_core) {
                 this.upWrap.style.visibility = 'hidden';
             }
         }
+        /**
+         * 上拉加载动画结束后的回调
+         * @param {*boolean} isFinishUp 
+         */
+
     }, {
         key: '_upLoaingEndHook',
         value: function _upLoaingEndHook(isFinishUp) {
@@ -1473,11 +1519,21 @@ var defaults = function (_core) {
             this.upWrapProgress.classList.remove(CLASS_ROTATE);
             this.upWrapProgress.classList.add(CLASS_HIDDEN);
         }
+        /**
+         * 锁定上拉时的回调
+         * @param {*boolean} isLock  是否锁定
+         */
+
     }, {
         key: '_lockUpLoadingHook',
         value: function _lockUpLoadingHook(isLock) {
             this.upWrap.style.visibility = isLock ? 'hidden' : 'visible';
         }
+        /**
+         * 锁定下拉时的回调
+         * @param {*boolean} isLock 是否锁定
+         */
+
     }, {
         key: '_lockDownLoadingHook',
         value: function _lockDownLoadingHook(isLock) {
